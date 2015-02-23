@@ -1,0 +1,34 @@
+#+TITLE:       Org-page blogging engine
+#+AUTHOR:      Heikki Lehvaslaiho
+#+EMAIL:       heikki.lehvaslaiho@gmail.com
+#+DATE:        2015-02-16 Mon
+#+URI:         /blog/%y/%m/%d/org-page-blogging-engine
+#+KEYWORDS:    org, org-page
+#+TAGS:        emacs
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: First post about the tech used
+
+This blog has been created using [[https://github.com/kelvinh/org-page][org-page]].
+Org-page is a static site generator based on org-mode that allows you
+to write and publish blog entries without leaving emacs.
+
+Org-page provides the following features that I will need to explore,
+enable and configure:
+
+- Org sources and html files managed by git
+- Incremental publication (according to git diff command)
+- Category support
+- Tags support (auto generated)
+- RSS support (auto generated)
+- Search engine support (auto generated)
+- A beautiful theme
+- Theme customization support
+- Commenting (implemented using disqus/duoshuo)
+- Website traffic analytics (implemented using google analytics)
+- Index/about page support (auto generated if no default is provided)
+- Highly customizable
+
+Installation seemed to work without problems, but calling the function
+=op/new-post= did not work until I upgraded to a development version of
+emacs (25.0.50.1).
