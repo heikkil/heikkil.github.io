@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Custom elfeed filter functions - Heikki @ home</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Heikki Lehvaslaiho" />
+    <meta name="description" content="Custom speed functions for elfeed" />
+    <meta name="keywords" content="RSS, elisp, elfeed" />
+    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+  </head>
+  <body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="/">Heikki @ home</a></h1>
+        <p>Loose leaves from my tree</p>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="https://github.com/heikkil">GitHub</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="http://www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="q" value="site:heikkil.github.io">
+        </form>
+        <img class="avatar" src="https://avatars0.githubusercontent.com/u/75674?v=3&amp;s=460" />
+      </header>
+    </div>
+
+<div>
+<div class="post">
+<h1>Custom elfeed filter functions</h1>
+<p>
+I've been using the great emacs RSS reader <a href="https://github.com/skeeto/elfeed">elfeed</a> for months now. I
+had small suggestion to the way search filtering treats special
+characters and to minimize key presses, and filed <a href="https://github.com/skeeto/elfeed/issues/67#issuecomment-70853103">an issue</a> on it. The
+author Christopher Wellons fixed the issue and commented that I could
+speed things up by using custom functions and to bind them to
+single keys that are not used by the elfeed mode.
+</p>
+
+<p>
+ I usually scan quickly through the numerous daily news titles,
+then check the science news, and then read the remaining far fewer
+articles from other feeds. I have settled on a simple workflow that
+involves these three main categories of articles. Starting with all the
+articles, I go through news, science news and then the rest. Instead
+of manually changing the filter string, I have automated the process.
+The following table shows how my workflow neatly fits to keys 0-1-2-0.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="right" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="right">key</th>
+<th scope="col" class="left">function</th>
+<th scope="col" class="left">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="right">0</td>
+<td class="left">elfeed-read-all</td>
+<td class="left">resets to my default filter</td>
+</tr>
+
+<tr>
+<td class="right">1</td>
+<td class="left">elfeed-read-news</td>
+<td class="left">world news, removes pesky sport news</td>
+</tr>
+
+<tr>
+<td class="right">2</td>
+<td class="left">elfeed-read-journals</td>
+<td class="left">science news</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>
+Here a sample code from <a href="http://emacs.stackexchange.com/questions/2440/elfeed-mark-all-messages-as-read">Emacs StackExchange</a> that defines an elfeed function
+and a key binding to it. In this case, pressing <code>R</code> marks all visible
+articles read.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(defun elfeed-mark-all-as-read ()
+   "Mark currently shown articles read"
+   (interactive)
+   (mark-whole-buffer)
+   (elfeed-search-untag-all-unread))
+ (define-key elfeed-search-mode-map (kbd "R") 'elfeed-mark-all-as-read)
+</pre>
+</div>
+
+<p>
+To expand this to a filtering function, I need to define a filter
+string and apply it. Since there will be more than one category to
+filter, let's define a common function that takes the filter string as
+the first argument. The second argument is a short name that gets
+displayed on the echo field to provide feedback.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(defun elfeed--read-tag (filter tag)
+  "Template for filtering feed categories.
+
+FILTER is the filter string to apply, and TAG is a short name of
+the displayed category.
+
+The cursor is moved to the beginning of the first feed line."
+  (setq elfeed-search-filter filter)
+  (elfeed-search-update :force)
+  (goto-char (point-min))
+  (forward-line)
+  (message (concat "elfeed: show " tag)))
+</pre>
+</div>
+
+<p>
+It is easy to add more commands inside this function. The penultimate
+code line moves the cursor down to the first article. One more key
+press saved!
+</p>
+
+<p>
+My biggest gripe with the BBC News is that world news feed contains
+daily sports news -- a topic I am not interested in reading on regular
+basis. Like the <a href="http://nullprogram.com/blog/2013/11/26/">Elfeed Tips and Tricks</a> blog entry mentions, I could
+mark them with <code>junk</code> category and ignore junk. Instead, I decided to
+create a function that marks them read. Since that function gets
+called from an other function that filters for news, that function does not
+need to be interactive.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(defun elfeed--remove-sports ()
+  "Remove sports articles from world news"
+  (setq elfeed-search-filter "@1-month-ago +unread +n sport")
+  (elfeed-search-update :force)
+  (elfeed-mark-all-as-read)
+  (message "elfeed: sports removed"))
+
+(defun elfeed-read-news ()
+  "Show global news articles"
+  (interactive)
+  (elfeed--remove-sports)
+  (elfeed--read-tag "@1-month-ago +unread +n " "news"))
+(define-key elfeed-search-mode-map (kbd "1") 'elfeed-read-news)
+</pre>
+</div>
+
+
+<p>
+From these code lines it is easy to see how to create functions
+<code>elfeed-read-all</code> and <code>elfeed-read-journals</code>. You just define your
+categories sensibly, give them a name (above: 'n' for news) and put
+them in the search string. <a href="https://github.com/heikkil/emacs-literal-config/blob/master/emacs.org#news-feed-reader">My .emacs file</a> has all the details.
+</p>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2015-02-24</span>
+        <span title="last modification date" class="post-info">2015-03-02</span>
+        <span title="tags" class="post-info"><a href="/tags/emacs/">emacs</a></span>
+        <span title="author" class="post-info">Heikki Lehvaslaiho</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+      </section>
+      <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js"></script>
+      <script src="/media/js/main.js"></script>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.x (<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:heikki &lt;dot&gt; lehvaslaiho &lt;at&gt; gmail &lt;dot&gt; com">Heikki Lehvaslaiho</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+  </body>
+</html>
