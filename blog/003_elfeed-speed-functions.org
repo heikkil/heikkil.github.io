@@ -1,0 +1,100 @@
+#+TITLE:       Custom elfeed filter functions
+#+AUTHOR:      Heikki Lehvaslaiho
+#+EMAIL:       heikki.lehvaslaiho@gmail.com
+#+DATE:        2015-02-24 Tue
+#+URI:         /blog/%y/%m/%d/custom-elfeed-filter-functions
+#+KEYWORDS:    RSS, elisp, elfeed
+#+TAGS:        emacs
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: Custom speed functions for elfeed
+
+I've been using the great emacs RSS reader [[https://github.com/skeeto/elfeed][elfeed]] for months now. I
+had small suggestion to the way search filtering treats special
+characters and to minimize key presses, and filed [[https://github.com/skeeto/elfeed/issues/67#issuecomment-70853103][an issue]] on it. The
+author Christopher Wellons fixed the issue and commented that I could
+speed things up by using custom functions and to bind them to
+single keys that are not used by the elfeed mode.
+
+ I usually scan quickly through the numerous daily news titles,
+then check the science news, and then read the remaining far fewer
+articles from other feeds. I have settled on a simple workflow that
+involves these three main categories of articles. Starting with all the
+articles, I go through news, science news and then the rest. Instead
+of manually changing the filter string, I have automated the process.
+The following table shows how my workflow neatly fits to keys 0-1-2-0.
+
+    | key | function             | note                                 |
+    |-----+----------------------+--------------------------------------|
+    |   0 | elfeed-read-all      | resets to my default filter          |
+    |   1 | elfeed-read-news     | world news, removes pesky sport news |
+    |   2 | elfeed-read-journals | science news                         |
+
+
+Here a sample code from [[http://emacs.stackexchange.com/questions/2440/elfeed-mark-all-messages-as-read][Emacs StackExchange]] that defines an elfeed function
+and a key binding to it. In this case, pressing =R= marks all visible
+articles read.
+
+#+BEGIN_SRC emacs-lisp
+    (defun elfeed-mark-all-as-read ()
+       "Mark currently shown articles read"
+       (interactive)
+       (mark-whole-buffer)
+       (elfeed-search-untag-all-unread))
+     (define-key elfeed-search-mode-map (kbd "R") 'elfeed-mark-all-as-read)
+#+END_SRC
+
+To expand this to a filtering function, I need to define a filter
+string and apply it. Since there will be more than one category to
+filter, let's define a common function that takes the filter string as
+the first argument. The second argument is a short name that gets
+displayed on the echo field to provide feedback.
+
+#+BEGIN_SRC emacs-lisp
+     (defun elfeed--read-tag (filter tag)
+       "Template for filtering feed categories.
+
+     FILTER is the filter string to apply, and TAG is a short name of
+     the displayed category.
+
+     The cursor is moved to the beginning of the first feed line."
+       (setq elfeed-search-filter filter)
+       (elfeed-search-update :force)
+       (goto-char (point-min))
+       (forward-line)
+       (message (concat "elfeed: show " tag)))
+#+END_SRC
+
+It is easy to add more commands inside this function. The penultimate
+code line moves the cursor down to the first article. One more key
+press saved!
+
+My biggest gripe with the BBC News is that world news feed contains
+daily sports news -- a topic I am not interested in reading on regular
+basis. Like the [[http://nullprogram.com/blog/2013/11/26/][Elfeed Tips and Tricks]] blog entry mentions, I could
+mark them with =junk= category and ignore junk. Instead, I decided to
+create a function that marks them read. Since that function gets
+called from an other function that filters for news, that function does not
+need to be interactive.
+
+#+BEGIN_SRC emacs-lisp
+     (defun elfeed--remove-sports ()
+       "Remove sports articles from world news"
+       (setq elfeed-search-filter "@1-month-ago +unread +n sport")
+       (elfeed-search-update :force)
+       (elfeed-mark-all-as-read)
+       (message "elfeed: sports removed"))
+
+     (defun elfeed-read-news ()
+       "Show global news articles"
+       (interactive)
+       (elfeed--remove-sports)
+       (elfeed--read-tag "@1-month-ago +unread +n " "news"))
+     (define-key elfeed-search-mode-map (kbd "1") 'elfeed-read-news)
+#+END_SRC
+
+
+From these code lines it is easy to see how to create functions
+=elfeed-read-all= and =elfeed-read-journals=. You just define your
+categories sensibly, give them a name (above: 'n' for news) and put
+them in the search string. [[https://github.com/heikkil/emacs-literal-config/blob/master/emacs.org#news-feed-reader][My .emacs file]] has all the details.
