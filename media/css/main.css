@@ -98,6 +98,7 @@ ul, ol {
 }
 code, pre {
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-size: 12px;
 }
 code {
     color: #d14;
