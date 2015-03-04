@@ -1,0 +1,13 @@
+#+TITLE:       Snowing
+#+AUTHOR:      Heikki Lehvaslaiho
+#+EMAIL:       heikki.lehvaslaiho@gmail.com
+#+DATE:        2015-03-02 Mon
+#+URI:         /blog/%y/%m/%d/snowing
+#+KEYWORDS:    snow, forest, spruce, trees
+#+TAGS:        photography
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: Heavy and wet snow falling down in the forest
+
+https://www.flickr.com/photos/kapkaupunki/16713301541/sizes/z/
+
