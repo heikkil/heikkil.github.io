@@ -9,4 +9,4 @@
 #+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
 #+DESCRIPTION: Heavy and wet snow falling down in the forest
 
-[[https://www.flickr.com/photos/kapkaupunki/16713301541/sizes/h/][https://www.flickr.com/photos/kapkaupunki/16713301541/sizes/z/]]
+[[http://farm9.staticflickr.com/8679/16713301541_9820b8c6ff_b.jpg][http://farm9.staticflickr.com/8679/16713301541_9820b8c6ff_z.jpg]]
