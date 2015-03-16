@@ -1,0 +1,14 @@
+#+TITLE:       Frost
+#+AUTHOR:      Heikki Lehvaslaiho
+#+EMAIL:       heikki.lehvaslaiho@gmail.com
+#+DATE:        2015-03-16 Mon
+#+URI:         /blog/%y/%m/%d/snowing
+#+KEYWORDS:    frost, forest, trees
+#+TAGS:        photography
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: Morning sun lighting up frosted trees by the river
+
+[[https://farm9.staticflickr.com/8639/16831068765_6e84a8583c_o.jpg][https://farm9.staticflickr.com/8639/16831068765_9249f72275_z.jpg]]
+
+[[https://farm8.staticflickr.com/7286/16208726184_5411ce1244_o.jpg][https://farm8.staticflickr.com/7286/16208726184_a296423cfb_z.jpg]]
