@@ -66,8 +66,8 @@ to a function fixed it.
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(<span style="color: #a020f0;">defun</span> <span style="color: #0000ff;">my/insert-unicode</span> (unicode-name)
-<span style="color: #8b2252;">"Same as: C-x 8 Enter UNICODE-NAME."</span>
-(insert-char (cdr (assoc-string unicode-name (ucs-names)))))
+  <span style="color: #8b2252;">"Same as: C-x 8 Enter UNICODE-NAME."</span>
+  (insert-char (cdr (assoc-string unicode-name (ucs-names)))))
 
 (global-set-key
  (kbd <span style="color: #8b2252;">"C-x 9"</span>)
@@ -95,7 +95,7 @@ Unicode characters. The list is easy to modify and expand.
 Since this the default "red" hydra, it remains active as long as a key
 that has not been mapped is pressed. Someone should expand this to
 remap the entire keyboard for mathematical input or to a language with
-a completely different script -- all within emacs.
+a completely different script &ndash; all within emacs.
 </p>
 
 </div>
