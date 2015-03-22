@@ -34,8 +34,8 @@ to a function fixed it.
 
    #+BEGIN_SRC emacs-lisp
      (defun my/insert-unicode (unicode-name)
-     "Same as: C-x 8 Enter UNICODE-NAME."
-     (insert-char (cdr (assoc-string unicode-name (ucs-names)))))
+       "Same as: C-x 8 Enter UNICODE-NAME."
+       (insert-char (cdr (assoc-string unicode-name (ucs-names)))))
 
      (global-set-key
       (kbd "C-x 9")
@@ -59,4 +59,4 @@ Unicode characters. The list is easy to modify and expand.
 Since this the default "red" hydra, it remains active as long as a key
 that has not been mapped is pressed. Someone should expand this to
 remap the entire keyboard for mathematical input or to a language with
-a completely different script -- all within emacs.
+a completely different script \ndash all within emacs.
