@@ -98,12 +98,12 @@ articles read.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(defun elfeed-mark-all-as-read ()
-   "Mark currently shown articles read"
+<pre class="src src-emacs-lisp">(<span style="color: #a020f0;">defun</span> <span style="color: #0000ff;">elfeed-mark-all-as-read</span> ()
+   <span style="color: #8b2252;">"Mark currently shown articles read"</span>
    (interactive)
    (mark-whole-buffer)
    (elfeed-search-untag-all-unread))
- (define-key elfeed-search-mode-map (kbd "R") 'elfeed-mark-all-as-read)
+ (define-key elfeed-search-mode-map (kbd <span style="color: #8b2252;">"R"</span>) 'elfeed-mark-all-as-read)
 </pre>
 </div>
 
@@ -117,18 +117,18 @@ displayed on the echo field to provide feedback.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(defun elfeed--read-tag (filter tag)
-  "Template for filtering feed categories.
+<pre class="src src-emacs-lisp">(<span style="color: #a020f0;">defun</span> <span style="color: #0000ff;">elfeed--read-tag</span> (filter tag)
+  <span style="color: #8b2252;">"Template for filtering feed categories.</span>
 
-FILTER is the filter string to apply, and TAG is a short name of
-the displayed category.
+<span style="color: #8b2252;">FILTER is the filter string to apply, and TAG is a short name of</span>
+<span style="color: #8b2252;">the displayed category.</span>
 
-The cursor is moved to the beginning of the first feed line."
+<span style="color: #8b2252;">The cursor is moved to the beginning of the first feed line."</span>
   (setq elfeed-search-filter filter)
-  (elfeed-search-update :force)
+  (elfeed-search-update <span style="color: #483d8b;">:force</span>)
   (goto-char (point-min))
   (forward-line)
-  (message (concat "elfeed: show " tag)))
+  (message (concat <span style="color: #8b2252;">"elfeed: show "</span> tag)))
 </pre>
 </div>
 
@@ -150,19 +150,19 @@ need to be interactive.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(defun elfeed--remove-sports ()
-  "Remove sports articles from world news"
-  (setq elfeed-search-filter "@1-month-ago +unread +n sport")
-  (elfeed-search-update :force)
+<pre class="src src-emacs-lisp">(<span style="color: #a020f0;">defun</span> <span style="color: #0000ff;">elfeed--remove-sports</span> ()
+  <span style="color: #8b2252;">"Remove sports articles from world news"</span>
+  (setq elfeed-search-filter <span style="color: #8b2252;">"@1-month-ago +unread +n sport"</span>)
+  (elfeed-search-update <span style="color: #483d8b;">:force</span>)
   (elfeed-mark-all-as-read)
-  (message "elfeed: sports removed"))
+  (message <span style="color: #8b2252;">"elfeed: sports removed"</span>))
 
-(defun elfeed-read-news ()
-  "Show global news articles"
+(<span style="color: #a020f0;">defun</span> <span style="color: #0000ff;">elfeed-read-news</span> ()
+  <span style="color: #8b2252;">"Show global news articles"</span>
   (interactive)
   (elfeed--remove-sports)
-  (elfeed--read-tag "@1-month-ago +unread +n " "news"))
-(define-key elfeed-search-mode-map (kbd "1") 'elfeed-read-news)
+  (elfeed--read-tag <span style="color: #8b2252;">"@1-month-ago +unread +n "</span> <span style="color: #8b2252;">"news"</span>))
+(define-key elfeed-search-mode-map (kbd <span style="color: #8b2252;">"1"</span>) 'elfeed-read-news)
 </pre>
 </div>
 
