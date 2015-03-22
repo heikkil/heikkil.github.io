@@ -1,0 +1,62 @@
+#+TITLE:       Hydra for Unicode input in emacs
+#+AUTHOR:      Heikki Lehvaslaiho
+#+EMAIL:       heikki.lehvaslaiho@gmail.com
+#+DATE:        2015-03-22 Sun
+#+URI:         /blog/%y/%m/%d/hydra-for-unicode-input-in-emacs
+#+KEYWORDS:    unicode, elisp, hydra
+#+TAGS:        emacs
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: Inline documentation of emacs key bindings for Unicode
+
+Sean Miller recently wrote a [[http://thewanderingcoder.com/2015/03/emacs-org-mode-styling-non-smart-quotes-zero-width-space-and-tex-input-method/][blog entry]] on emacs input methods and
+mentioned the [[http://www.emacswiki.org/emacs/PrefixKey][prefix key]] =C-x 8=. Almost any character can be printed
+out with the help from the prefix key (see =M-x describe-bindings=).
+Internally Emacs uses a character encoding that is a superset of
+Unicode, so any conceivable character can be used. The problem is to
+remember the key combinations to call them out.
+
+I have used the [[http://www.emacswiki.org/emacs/AbbrevMode][abbrev mode]] to get some characters that not in my
+keyboard: =ccc= and space prints out "°C" and =8eur= gives me "€".
+
+Sean uses a custom function to get out a certain non-printing
+character (ZERO WIDTH SPACE), and points to a more generic solution in
+[[http://pages.sachachua.com/.emacs.d/Sacha.html#unnumbered-43][Sacha Chua's emacs config]]. That calls out Unicode characters by name
+from a built-in emacs list (=C-h v ucs-names=) using a macro.
+Unfortunately this does not solve the problem of how to remember the
+keys to call this macro with different Unicode name strings.
+
+For me, the solution was to use the [[https://github.com/abo-abo/hydra][hydra]] emacs package that both
+binds keys in very flexible ways to functions and contains a
+documentation string that is displayed in the emacs echo area. For
+some reason, the macro did not work with hydra calls but rewriting it
+to a function fixed it.
+
+   #+BEGIN_SRC emacs-lisp
+     (defun my/insert-unicode (unicode-name)
+     "Same as: C-x 8 Enter UNICODE-NAME."
+     (insert-char (cdr (assoc-string unicode-name (ucs-names)))))
+
+     (global-set-key
+      (kbd "C-x 9")
+      (defhydra hydra-unicode (:hint nil)
+        "
+        Unicode  _e_ €  _s_ ZERO WIDTH SPACE
+                 _f_ ♀  _o_ °
+                 _r_ ♂  _a_ →
+        "
+        ("e" (my/insert-unicode "EURO SIGN"))
+        ("r" (my/insert-unicode "MALE SIGN"))
+        ("f" (my/insert-unicode "FEMALE SIGN"))
+        ("s" (my/insert-unicode "ZERO WIDTH SPACE"))
+        ("o" (my/insert-unicode "DEGREE SIGN"))
+        ("a" (my/insert-unicode "RIGHTWARDS ARROW"))))
+   #+END_SRC
+
+Now pressing =C-x 9= displays the list of keys to press next to the
+Unicode characters. The list is easy to modify and expand.
+
+Since this the default "red" hydra, it remains active as long as a key
+that has not been mapped is pressed. Someone should expand this to
+remap the entire keyboard for mathematical input or to a language with
+a completely different script -- all within emacs.
