@@ -4,10 +4,17 @@
     <title>Heikki @ home</title>
     <link>http://heikkil.github.io</link>
     <description>Loose leaves from my tree</description>
-    <pubDate>Sun, 22 Mar 2015 22:45:47 EET</pubDate>
-    <lastBuildDate>Sun, 22 Mar 2015 22:45:47 EET</lastBuildDate>
+    <pubDate>Mon, 23 Mar 2015 06:37:04 EET</pubDate>
+    <lastBuildDate>Mon, 23 Mar 2015 06:37:04 EET</lastBuildDate>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>Org-page static site generator (https://github.com/kelvinh/org-page)</generator>
+    <item>
+      <title>Exporting pets from Saudi Arabia to Europe</title>
+      <link>http://heikkil.github.io/blog/2015/02/23/exporting-pets-from-saudi-arabia-to-europe</link>
+      <description>Pet export details</description>
+      <pubDate>2015-03-23</pubDate>
+      <guid>http://heikkil.github.io/blog/2015/02/23/exporting-pets-from-saudi-arabia-to-europe</guid>
+    </item>
     <item>
       <title>Hydra for Unicode input in emacs</title>
       <link>http://heikkil.github.io/blog/2015/03/22/hydra-for-unicode-input-in-emacs</link>
@@ -35,13 +42,6 @@
       <description>Custom speed functions for elfeed</description>
       <pubDate>2015-03-02</pubDate>
       <guid>http://heikkil.github.io/blog/2015/02/24/custom-elfeed-filter-functions</guid>
-    </item>
-    <item>
-      <title>Exporting pets from Saudi Arabia to Europe</title>
-      <link>http://heikkil.github.io/blog/2015/02/23/exporting-pets-from-saudi-arabia-to-europe</link>
-      <description>Pet export details</description>
-      <pubDate>2015-02-24</pubDate>
-      <guid>http://heikkil.github.io/blog/2015/02/23/exporting-pets-from-saudi-arabia-to-europe</guid>
     </item>
     <item>
       <title>Org-page blogging engine</title>
