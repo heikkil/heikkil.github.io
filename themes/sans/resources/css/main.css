@@ -293,7 +293,7 @@ table th.right, table td.right {
     z-index: 200;
 }
 
-#table-of-contents h2 {
+#table-of-contents h3 {
     max-width: 20em;
     font-weight: normal;
     padding-left: 0.5em;
