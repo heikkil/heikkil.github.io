@@ -6,7 +6,7 @@
 #+KEYWORDS:    Saudi Arabia
 #+TAGS:        Saudi
 #+LANGUAGE:    en
-#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+OPTIONS:     H:3 num:nil toc:t \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
 #+DESCRIPTION: Pet export details
 
 I describe here the steps I took to transport dogs out of Saudi Arabia
