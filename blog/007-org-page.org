@@ -51,7 +51,6 @@ package org-page {
 #+RESULTS:
 [[file:img/007-org-page.png]]
 
-[[file:/blog/img/007-org-page.png]]
 
 The optional remote component of source does not really do anything,
 but it is a nice way of creating a backup and safeguarding your work.
