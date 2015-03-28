@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Understanding org-page - Heikki @ home</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Heikki Lehvaslaiho" />
+    <meta name="description" content="How I understand and use org-page better after using it for a month" />
+    <meta name="keywords" content="org-page, tutorial, how-to, introduction, documentation" />
+    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+    <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
+</head>
+
+  <body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="/">Heikki @ home</a></h1>
+        <p>Loose leaves from my tree</p>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="https://github.com/heikkil">GitHub</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="http://www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="q" value="site:heikkil.github.io">
+        </form>
+        <img class="avatar" src="https://avatars0.githubusercontent.com/u/75674?v=3&amp;s=460" />
+      </header>
+    </div>
+
+<div>
+<div class="post">
+<h1>Understanding org-page</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">How does it work?</a></li>
+<li><a href="#sec-2">Remote</a></li>
+<li><a href="#sec-3">Look and feel</a></li>
+<li><a href="#sec-4">Publish</a></li>
+</ul>
+</div>
+</div>
+<p>
+I spent some time looking for a really simple platform for blogging.
+Simple in the sense that I can control everything from emacs and do
+not have to worry about clicking with a mouse a dozen times to get
+something done.
+</p>
+
+<p>
+I tried <a href="http://octopress.org/">Octopress</a> and <a href="http://getnikola.com/">Nikola</a>, but could not get neither to run easily.
+From these experiences I knew I wanted something that worked with <b>org
+mode</b> and <b>created static pages</b>. The <a href="https://github.com/kelvinh/org-page">org-page</a> package worked at first
+try and fulfilled both requirements. I did have to scrap my first
+attempt because I realized I had not understood how org-page works.
+The project documentation is sparse so it is easy to get lost. It has been
+written by a developer to developers. Let's see if I can spell out
+the self-evident.
+</p>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">How does it work?</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+org-page are has three local components, and at least one remote. These are:
+</p>
+
+<ol class="org-ol">
+<li>local org-page code base that manages everything, installed in emacs
+</li>
+<li>local source branch of your web-site
+</li>
+<li>local master branch generated from source by the code base
+</li>
+<li>remote master branch serving HTML pages
+</li>
+<li>(remote source branch)
+</li>
+</ol>
+
+
+<div class="figure">
+<p><img src="/assets/blog/2015/03/28/understanding-org-page/007-org-page.png" alt="007-org-page.png" />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="file:///blog//assets/blog/2015/03/28/understanding-org-page/007-org-page.png" alt="007-org-page.png" />
+</p>
+</div>
+
+<p>
+The optional remote component of source does not really do anything,
+but it is a nice way of creating a backup and safeguarding your work.
+</p>
+
+<p>
+Note that <a href="https://github.com/kelvinh/org-page/issues/113">remote does not have to be in remote computer</a>: You save the
+output to any local directory that your web server can see, e.g.
+<code>http://localhost/~your_login</code>.
+</p>
+
+<p>
+By branches we mean branches of a git repository. Everything in
+org-page is based on git and you have to have some kind of
+understanding of its workings before you can make org-page to do what
+you want. Commonly git branches contain files that have at some point
+been the same and will at some point be merged back together. Org-page
+branches are different. The source branch holds org mode files
+that the code base will translate to HTML for publishing. To keep things
+simple, you should keep the flow of information one way only.
+</p>
+
+<p>
+This was my initial stumbling block. I kept switching between the two
+branches and did not know what to commit where. In no time the
+repository was a complete mess. The code base does not know in which
+branch the repository is and does not warn you. It would be great if
+it were to know and refuse to touch files in a wrong branch.
+</p>
+
+<p>
+Starting anew, I was more careful.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Remote</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+The whole idea of org-page is that the software can automatically push
+the latest updates to the server. It comes with several documented
+options of doing it but it has really designed to take advantage of
+GitHub's feature that a public repository named {yourlogin}.github.io
+is assumed to contain a website is automatically served out at
+<a href="http://yourlogin.github.io">http://yourlogin.github.io</a>.
+</p>
+
+<p>
+That's where your master branch will end up. It needs to contain HTML
+source code and a bit of JavaScript supported by CSS that a web server
+can make available to the net.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Look and feel</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+The org-page only has only one maintained theme, mdo. The whole
+project is still maintained by one person, Kelvin Hu, and his
+site using org-page is all in Chinese. This shows in the design.
+Luckily there is <i>a way to add themes</i> and remove some these quirks.
+</p>
+
+<p>
+I copied the default theme and renamed it to sans. This has to be done
+in the source branch:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #483d8b;">cd</span> (op/repository-directory)
+mkdir themes
+cp -r .../org-page/themes/mdo themes/sans
+</pre>
+</div>
+
+<p>
+I've tried to change as little as possible. The default font is of
+sans serif type rather than a fixed width one. The sans theme headers
+start now left of the body text and there is no need to add extra
+characters around links or bold text. In Latin text there are standard
+ways of rendering these features.
+</p>
+
+<p>
+The only non-intuitive thing about themes is that its items are kept
+in a cache variable that has to be emptied before anything is visibly
+changes in the published web pages. More about that later.
+</p>
+
+<p>
+I've copied over from the mdo theme a recent addition of <b>table of
+contents</b>. Note that toc is nil by default in org <code>#+OPTIONS:</code> line of
+entry documents and has to be set to 't' for the table of contents to
+be generated.
+</p>
+
+<p>
+In org-page, you are expected to edit the top index page by hand. The
+top index.org file is created by the repository creating emacs
+functions. You can, however, remove that file for the org-page to
+create a listing of written entries. By default, these pages belong to
+category blog, and are located in the source sub-directory 'blog'. You
+can have more categories by creating new sub-directories and adding
+entries into them. You can decide yourself what there categories are
+and what kind of articles you store in them. They all share the same
+tag namespace and are listed in the same RSS file. Here is <a href="http://www.aurobit.com/">one
+installation of org-page using multiple categories</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Publish</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Org-page comes with lisp functions that do everything you need to
+write and publish a blog.
+</p>
+
+<ul class="org-ul">
+<li><code>op/new-repository</code> \endash interactively fills in repository
+details and creates basic files needed
+</li>
+<li><code>op/new-post</code> \endash adds org headers interactively to a new buffer
+</li>
+<li><code>op/do-publication</code> \endash interactive, publishes either to local dir or
+upstream
+</li>
+</ul>
+
+<p>
+The <code>op/new-repository</code> creates files based on your setup. Here is mine:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(<span style="color: #a020f0;">require</span> '<span style="color: #008b8b;">org-page</span>)
+(setq op/repository-directory <span style="color: #8b2252;">"~/src/org-page/heikkil.github.io"</span>)
+(setq op/site-domain <span style="color: #8b2252;">"http://heikkil.github.io"</span>)
+(setq op/personal-avatar <span style="color: #8b2252;">"https://avatars0.githubusercontent.com/u/75674?v=3&amp;s=460"</span>)
+<span style="color: #b22222;">;; </span><span style="color: #b22222;">for commenting; disabled for now</span>
+<span style="color: #b22222;">;;</span><span style="color: #b22222;">(setq op/personal-disqus-shortname "your_disqus_shortname")</span>
+
+<span style="color: #b22222;">;; </span><span style="color: #b22222;">analytics set up at ~/.emacs.secrets file</span>
+<span style="color: #b22222;">;;</span><span style="color: #b22222;">(setq op/personal-google-analytics-id "UA-NNNNNNNN-N")</span>
+
+(setq op/personal-github-link <span style="color: #8b2252;">"https://github.com/heikkil"</span>)
+
+(setq op/site-main-title <span style="color: #8b2252;">"Heikki @ home"</span>)
+(setq op/site-sub-title <span style="color: #8b2252;">"Loose leaves from my tree"</span>)
+
+<span style="color: #b22222;">;; </span><span style="color: #b22222;">set up my own theme since a sans option does not exist</span>
+(setq op/theme-root-directory <span style="color: #8b2252;">"~/src/org-page/heikkil.github.io/themes"</span>)
+(setq op/theme 'sans)  <span style="color: #b22222;">; </span><span style="color: #b22222;">mdo is the default</span>
+</pre>
+</div>
+
+<p>
+Once all is set up, run <code>op/new-repository</code> to a create basic collection
+of files and a git repository in the directory.
+</p>
+
+<p>
+The <code>op/new-post</code> asks for a name for the entry and creates the file
+and org headers for you. Then you just write the content of entry and
+publish it. Org mode text gets converted to HTML and pushed to the
+remote.
+</p>
+
+<p>
+The all too self-evident thing that the documentation fails to mention
+is that you have to commit your change before it can be published. If
+you have several articles under preparation that you have already
+added to git, you have to know how to use <code>git stash</code> to store the
+unfinished articles while you publish one.
+</p>
+
+<p>
+The <code>op/do-publication</code> function has five arguments that can be filled
+in interactively to publish exactly how you want. To get those
+arguments right needs careful concentration. Better automate it. I am
+using the <a href="https://github.com/abo-abo/hydra">hydra</a> package to help me remember the most important
+options. The most common command that I use pushes the last commit to the
+remote with <code>C-c p l</code>. Hydra also helps me to clear the cache when
+needed with hydra-blog option <code>r</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(global-set-key
+ (kbd <span style="color: #8b2252;">"C-c p"</span>)
+ (defhydra hydra-blog (<span style="color: #483d8b;">:color</span> blue <span style="color: #483d8b;">:hint</span> nil)
+   <span style="color: #8b2252;">"</span>
+<span style="color: #8b2252;">blog  _n_ew post             publish _l_ast commit    n_e_w-repository</span>
+<span style="color: #8b2252;">      _r_eset &amp; publish all  _p_ublish interactively</span>
+<span style="color: #8b2252;">      "</span>
+   (<span style="color: #8b2252;">"n"</span> op/new-post)
+   (<span style="color: #8b2252;">"r"</span> (<span style="color: #a020f0;">progn</span>
+          (setq op/item-cache nil)
+          (op/do-publication t nil nil t t)))
+   (<span style="color: #8b2252;">"l"</span> (op/do-publication nil <span style="color: #8b2252;">"HEAD~1"</span> nil t t))
+   (<span style="color: #8b2252;">"p"</span> op/do-publication)
+   (<span style="color: #8b2252;">"e"</span> op/new-repository)))
+</pre>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2015-03-28</span>
+        <span title="last modification date" class="post-info">2015-03-28</span>
+        <span title="tags" class="post-info"><a href="/tags/emacs/">emacs</a></span>
+        <span title="author" class="post-info">Heikki Lehvaslaiho</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+      </section>
+      <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js"></script>
+      <script src="/media/js/main.js"></script>
+      <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-59820721-1']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.x (<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:heikki &lt;dot&gt; lehvaslaiho &lt;at&gt; gmail &lt;dot&gt; com">Heikki Lehvaslaiho</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+  </body>
+</html>
