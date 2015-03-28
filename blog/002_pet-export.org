@@ -3,8 +3,8 @@
 #+EMAIL:       heikki.lehvaslaiho@gmail.com
 #+DATE:        2015-02-23 Mon
 #+URI:         /blog/%y/%m/%d/exporting-pets-from-saudi-arabia-to-europe
-#+KEYWORDS:    Saudi Arabia
-#+TAGS:        Saudi
+#+KEYWORDS:    Saudi Arabia, pet export
+#+TAGS:        saudi
 #+LANGUAGE:    en
 #+OPTIONS:     H:3 num:nil toc:t \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
 #+DESCRIPTION: Pet export details
