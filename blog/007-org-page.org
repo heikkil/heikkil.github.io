@@ -1,0 +1,206 @@
+#+TITLE:       Understanding org-page
+#+AUTHOR:      Heikki Lehvaslaiho
+#+EMAIL:       heikki.lehvaslaiho@gmail.com
+#+DATE:        2015-03-28 Sat
+#+URI:         /blog/%y/%m/%d/understanding-org-page
+#+KEYWORDS:    org-page, tutorial, how-to, introduction, documentation
+#+TAGS:        emacs
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:t \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: How I understand and use org-page better after using it for a month
+
+I spent some time looking for a really simple platform for blogging.
+Simple in the sense that I can control everything from emacs and do
+not have to worry about clicking with a mouse a dozen times to get
+something done.
+
+I tried [[http://octopress.org/][Octopress]] and [[http://getnikola.com/][Nikola]], but could not get neither to run easily.
+From these experiences I knew I wanted something that worked with *org
+mode* and *created static pages*. The [[https://github.com/kelvinh/org-page][org-page]] package worked at first
+try and fulfilled both requirements. I did have to scrap my first
+attempt because I realized I had not understood how org-page works.
+The project documentation is sparse so it is easy to get lost. It has been
+written by a developer to developers. Let's see if I can spell out
+the self-evident.
+
+* How does it work?
+
+org-page are has three local components, and at least one remote. These are:
+
+  1. local org-page code base that manages everything, installed in emacs
+  2. local source branch of your web-site
+  3. local master branch generated from source by the code base
+  4. remote master branch serving HTML pages
+  5. (remote source branch)
+
+#+BEGIN_SRC plantuml :file img/007-org-page.png
+package org-page {
+  class source << (1,DeepSkyBlue) >>
+  class master << (2,DeepSkyBlue) >>
+  class "code base" << (3,DeepSkyBlue) >> {
+    op/publish()
+  }
+  class remote << (4,DeepSkyBlue) >>
+  source -> master : translated to >
+  master -> remote : copied to >
+  (source, master) .. "code base"
+  (master, remote) .. "code base"
+}
+#+END_SRC
+
+#+RESULTS:
+[[file:img/007-org-page.png]]
+
+[[file:/blog/img/007-org-page.png]]
+
+The optional remote component of source does not really do anything,
+but it is a nice way of creating a backup and safeguarding your work.
+
+Note that [[https://github.com/kelvinh/org-page/issues/113][remote does not have to be in remote computer]]: You save the
+output to any local directory that your web server can see, e.g.
+=http://localhost/~your_login=.
+
+By branches we mean branches of a git repository. Everything in
+org-page is based on git and you have to have some kind of
+understanding of its workings before you can make org-page to do what
+you want. Commonly git branches contain files that have at some point
+been the same and will at some point be merged back together. Org-page
+branches are different. The source branch holds org mode files
+that the code base will translate to HTML for publishing. To keep things
+simple, you should keep the flow of information one way only.
+
+This was my initial stumbling block. I kept switching between the two
+branches and did not know what to commit where. In no time the
+repository was a complete mess. The code base does not know in which
+branch the repository is and does not warn you. It would be great if
+it were to know and refuse to touch files in a wrong branch.
+
+Starting anew, I was more careful.
+
+* Remote
+
+The whole idea of org-page is that the software can automatically push
+the latest updates to the server. It comes with several documented
+options of doing it but it has really designed to take advantage of
+GitHub's feature that a public repository named {yourlogin}.github.io
+is assumed to contain a website is automatically served out at
+http://yourlogin.github.io.
+
+That's where your master branch will end up. It needs to contain HTML
+source code and a bit of JavaScript supported by CSS that a web server
+can make available to the net.
+
+* Look and feel
+
+The org-page only has only one maintained theme, mdo. The whole
+project is still maintained by one person, Kelvin Hu, and his
+site using org-page is all in Chinese. This shows in the design.
+Luckily there is [[ https://github.com/kelvinh/org-page/issues/89 ][a way to add themes]] and remove some these quirks.
+
+I copied the default theme and renamed it to sans. This has to be done
+in the source branch:
+
+#+BEGIN_SRC sh
+cd (op/repository-directory)
+mkdir themes
+cp -r .../org-page/themes/mdo themes/sans
+#+END_SRC
+
+I've tried to change as little as possible. The default font is of
+sans serif type rather than a fixed width one. The sans theme headers
+start now left of the body text and there is no need to add extra
+characters around links or bold text. In Latin text there are standard
+ways of rendering these features.
+
+The only non-intuitive thing about themes is that its items are kept
+in a cache variable that has to be emptied before anything is visibly
+changes in the published web pages. More about that later.
+
+I've copied over from the mdo theme a recent addition of *table of
+contents*. Note that toc is nil by default in org ~#+OPTIONS:~ line of
+entry documents and has to be set to 't' for the table of contents to
+be generated.
+
+In org-page, you are expected to edit the top index page by hand. The
+top index.org file is created by the repository creating emacs
+functions. You can, however, remove that file for the org-page to
+create a listing of written entries. By default, these pages belong to
+category blog, and are located in the source sub-directory 'blog'. You
+can have more categories by creating new sub-directories and adding
+entries into them. You can decide yourself what there categories are
+and what kind of articles you store in them. They all share the same
+tag namespace and are listed in the same RSS file. Here is [[http://www.aurobit.com/][one
+installation of org-page using multiple categories]].
+
+* Publish
+
+Org-page comes with lisp functions that do everything you need to
+write and publish a blog.
+
+- =op/new-repository= \endash interactively fills in repository
+  details and creates basic files needed
+- =op/new-post= \endash adds org headers interactively to a new buffer
+- =op/do-publication= \endash interactive, publishes either to local dir or
+  upstream
+
+The =op/new-repository= creates files based on your setup. Here is mine:
+
+#+BEGIN_SRC emacs-lisp
+     (require 'org-page)
+     (setq op/repository-directory "~/src/org-page/heikkil.github.io")
+     (setq op/site-domain "http://heikkil.github.io")
+     (setq op/personal-avatar "https://avatars0.githubusercontent.com/u/75674?v=3&s=460")
+     ;; for commenting; disabled for now
+     ;;(setq op/personal-disqus-shortname "your_disqus_shortname")
+
+     ;; analytics set up at ~/.emacs.secrets file
+     ;;(setq op/personal-google-analytics-id "UA-NNNNNNNN-N")
+
+     (setq op/personal-github-link "https://github.com/heikkil")
+
+     (setq op/site-main-title "Heikki @ home")
+     (setq op/site-sub-title "Loose leaves from my tree")
+
+     ;; set up my own theme since a sans option does not exist
+     (setq op/theme-root-directory "~/src/org-page/heikkil.github.io/themes")
+     (setq op/theme 'sans)  ; mdo is the default
+#+END_SRC
+
+Once all is set up, run =op/new-repository= to a create basic collection
+of files and a git repository in the directory.
+
+The =op/new-post= asks for a name for the entry and creates the file
+and org headers for you. Then you just write the content of entry and
+publish it. Org mode text gets converted to HTML and pushed to the
+remote.
+
+The all too self-evident thing that the documentation fails to mention
+is that you have to commit your change before it can be published. If
+you have several articles under preparation that you have already
+added to git, you have to know how to use =git stash= to store the
+unfinished articles while you publish one.
+
+The =op/do-publication= function has five arguments that can be filled
+in interactively to publish exactly how you want. To get those
+arguments right needs careful concentration. Better automate it. I am
+using the [[https://github.com/abo-abo/hydra][hydra]] package to help me remember the most important
+options. The most common command that I use pushes the last commit to the
+remote with =C-c p l=. Hydra also helps me to clear the cache when
+needed with hydra-blog option =r=.
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key
+   (kbd "C-c p")
+   (defhydra hydra-blog (:color blue :hint nil)
+     "
+  blog  _n_ew post             publish _l_ast commit    n_e_w-repository
+        _r_eset & publish all  _p_ublish interactively
+        "
+     ("n" op/new-post)
+     ("r" (progn
+            (setq op/item-cache nil)
+            (op/do-publication t nil nil t t)))
+     ("l" (op/do-publication nil "HEAD~1" nil t t))
+     ("p" op/do-publication)
+     ("e" op/new-repository)))
+#+END_SRC
