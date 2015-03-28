@@ -96,7 +96,7 @@ project is still maintained by one person, Kelvin Hu, and his
 site using org-page is all in Chinese. This shows in the design.
 Luckily there is [[ https://github.com/kelvinh/org-page/issues/89 ][a way to add themes]] and remove some these quirks.
 
-I copied the default theme and renamed it to sans. This has to be done
+I copied the default theme and renamed it to [[https://github.com/heikkil/heikkil.github.io/tree/source/themes/sans][sans]]. This has to be done
 in the source branch:
 
 #+BEGIN_SRC sh
