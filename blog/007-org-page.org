@@ -94,7 +94,7 @@ can make available to the net.
 The org-page only has only one maintained theme, mdo. The whole
 project is still maintained by one person, Kelvin Hu, and his
 site using org-page is all in Chinese. This shows in the design.
-Luckily there is [[ https://github.com/kelvinh/org-page/issues/89 ][a way to add themes]] and remove some these quirks.
+Luckily there is [[https://github.com/kelvinh/org-page/issues/89][a way to add themes]] and remove some these quirks.
 
 I copied the default theme and renamed it to [[https://github.com/heikkil/heikkil.github.io/tree/source/themes/sans][sans]]. This has to be done
 in the source branch:
@@ -136,10 +136,10 @@ installation of org-page using multiple categories]].
 Org-page comes with lisp functions that do everything you need to
 write and publish a blog.
 
-- =op/new-repository= \endash interactively fills in repository
+- =op/new-repository= \ndash interactively fills in repository
   details and creates basic files needed
-- =op/new-post= \endash adds org headers interactively to a new buffer
-- =op/do-publication= \endash interactive, publishes either to local dir or
+- =op/new-post= \ndash adds org headers interactively to a new buffer
+- =op/do-publication= \ndash interactive, publishes either to local dir or
   upstream
 
 The =op/new-repository= creates files based on your setup. Here is mine:
