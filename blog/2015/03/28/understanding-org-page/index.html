@@ -278,7 +278,7 @@ arguments right needs careful concentration. Better automate it. I am
 using the <a href="https://github.com/abo-abo/hydra">hydra</a> package to help me remember the most important
 options. The most common command that I use pushes the last commit to the
 remote with <code>C-c p l</code>. Hydra also helps me to clear the cache when
-needed with hydra-blog option <code>r</code>.
+needed. Finally, <code>C-c p t</code> lets me test the site in a local directory.
 </p>
 
 <div class="org-src-container">
@@ -295,6 +295,9 @@ needed with hydra-blog option <code>r</code>.
           (setq op/item-cache nil)
           (op/do-publication t nil nil t t)))
    (<span style="color: #8b2252;">"l"</span> (op/do-publication nil <span style="color: #8b2252;">"HEAD~1"</span> nil t t))
+   (<span style="color: #8b2252;">"t"</span> (<span style="color: #a020f0;">progn</span>
+          (setq op/item-cache nil)
+          (op/do-publication t <span style="color: #8b2252;">"/tmp/blog"</span> nil nil nil)))
    (<span style="color: #8b2252;">"p"</span> op/do-publication)
    (<span style="color: #8b2252;">"e"</span> op/new-repository)))
 </pre>
@@ -307,7 +310,7 @@ needed with hydra-blog option <code>r</code>.
     <div>
       <div class="post-meta">
         <span title="post date" class="post-info">2015-03-28</span>
-        <span title="last modification date" class="post-info">2015-03-28</span>
+        <span title="last modification date" class="post-info">2015-03-31</span>
         <span title="tags" class="post-info"><a href="/tags/emacs/">emacs</a></span>
         <span title="author" class="post-info">Heikki Lehvaslaiho</span>
       </div>
