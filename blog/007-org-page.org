@@ -185,7 +185,7 @@ arguments right needs careful concentration. Better automate it. I am
 using the [[https://github.com/abo-abo/hydra][hydra]] package to help me remember the most important
 options. The most common command that I use pushes the last commit to the
 remote with =C-c p l=. Hydra also helps me to clear the cache when
-needed with hydra-blog option =r=.
+needed. Finally, =C-c p t= lets me test the site in a local directory.
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key
@@ -200,6 +200,9 @@ needed with hydra-blog option =r=.
             (setq op/item-cache nil)
             (op/do-publication t nil nil t t)))
      ("l" (op/do-publication nil "HEAD~1" nil t t))
+     ("t" (progn
+            (setq op/item-cache nil)
+            (op/do-publication t "/tmp/blog" nil nil nil)))
      ("p" op/do-publication)
      ("e" op/new-repository)))
 #+END_SRC
