@@ -202,7 +202,7 @@ needed. Finally, =C-c p t= lets me test the site in a local directory.
      ("l" (op/do-publication nil "HEAD~1" nil t t))
      ("t" (progn
             (setq op/item-cache nil)
-            (op/do-publication t "/tmp/blog" nil nil nil)))
+            (op/do-publication t "/tmp/blog" nil t nil)))
      ("p" op/do-publication)
      ("e" op/new-repository)))
 #+END_SRC
