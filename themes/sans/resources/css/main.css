@@ -240,7 +240,7 @@ table th.right, table td.right {
 .post ul > li:before {
     content: "- ";
     /* margin-left: -1.25em; */
-    color: #ccc;
+    color: #000;
 }
 .post ol {
     counter-reset: o-list;
@@ -249,7 +249,7 @@ table th.right, table td.right {
     content: counter(o-list) ") ";
     counter-increment: o-list;
     /* margin-left: -1.85em; */
-    color: #ccc;
+    color: #000;
 }
 
 /* special for li in pre */
