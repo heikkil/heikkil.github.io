@@ -189,20 +189,21 @@ needed. Finally, =C-c p t= lets me test the site in a local directory.
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key
-   (kbd "C-c p")
-   (defhydra hydra-blog (:color blue :hint nil)
-     "
-  blog  _n_ew post             publish _l_ast commit    n_e_w-repository
-        _r_eset & publish all  _p_ublish interactively
-        "
-     ("n" op/new-post)
-     ("r" (progn
-            (setq op/item-cache nil)
-            (op/do-publication t nil nil t t)))
-     ("l" (op/do-publication nil "HEAD~1" nil t t))
-     ("t" (progn
-            (setq op/item-cache nil)
-            (op/do-publication t "/tmp/blog" nil t nil)))
-     ("p" op/do-publication)
-     ("e" op/new-repository)))
+       (kbd "C-c p")
+       (defhydra hydra-blog (:color blue :hint nil)
+         "
+      blog  _n_: new post                        _l_: publish last commit
+            _r_: reset & publish all             _p_: publish interactively
+            _t_: reset & publish to /tmp/blog    _e_: new-repository
+            "
+         ("n" op/new-post)
+         ("r" (progn
+                (setq op/item-cache nil)
+                (op/do-publication t nil nil t t)))
+         ("t" (progn
+                (setq op/item-cache nil)
+                (op/do-publication t "/tmp/blog" nil t nil)))
+         ("l" (op/do-publication nil "HEAD~1" nil t t))
+         ("p" op/do-publication)
+         ("e" op/new-repository)))
 #+END_SRC
