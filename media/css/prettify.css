@@ -1,68 +1,68 @@
 /* Pretty printing styles. Used with prettify.js.
  *
- * This version is slight modified based on the original version.
+ * Tomorrow Theme
  *
- * Name:    Stanley Ng
- * Email:   stanleyhlng@googlegroups.com
+ * References:
+ * Original theme - https://github.com/chriskempson/tomorrow-theme 
+ * Copied from - http://jmblog.github.io/color-themes-for-google-code-prettify/css/themes/tomorrow 
  *
- * Reference:
- * http://code.google.com/p/google-code-prettify/source/browse/trunk/src/prettify.css
  */
+
 .pln {
-  color: #bd3613; }
+  color: #4d4d4c; }
 
 .str {
-  color: #269186; }
+    color: #718c00; }
 
 .kwd {
-  color: #859900; }
+    color: #8959a8; }
 
 .com {
-  color: #586175;
+  color: #8e908c;
   font-style: italic; }
 
 .typ {
-  color: #b58900; }
+    color: #4271ae; }
 
 .lit {
-  color: #2aa198; }
+    color: #f5871f; }
 
 .pun {
-  color: #839496; }
+    color: #4d4d4c; }
 
 .opn {
-  color: #839496; }
+    color: #4d4d4c; }
 
 .clo {
-  color: #839496; }
+    color: #4d4d4c; }
 
 .tag {
-  color: #268bd2; }
+    color: #c82829; }
 
 .atn {
-  color: #586175; }
+    color: #f5871f; }
 
 .atv {
-  color: #2aa198; }
+    color: #3e999f; }
 
 .dec {
-  color: #268bd2; }
+    color: #f5871f; }
 
 .var {
-  color: #268bd2; }
+    color: #c82829; }
 
 .fun {
-  color: #FF0000; }
+    color: #4271ae; }
 
 /* Put a border around prettyprinted code snippets. */
 pre.prettyprint {
-  background-color: #042029;
+  background: white;
   padding: 10px;
-  border: 1px solid #E1E1E8; }
+  border: 1px solid #ccc; }
 
 /* Specify class=linenums on a pre to get line numbering */
 ol.linenums {
-  color: #4c666c;
+  color: #ccc;
   margin: 0 0 0 40px; }
 
 ol.linenums li {
