@@ -1,0 +1,83 @@
+#+TITLE:       Note taking 4: org-dropbox
+#+AUTHOR:      Heikki Lehväslaiho
+#+EMAIL:       heikki.lehvaslaiho@gmail.com
+#+DATE:        2015-05-01 Thu
+#+URI:         /blog/%y/%m/%d/notes-using-org-dropbox
+#+KEYWORDS:    phone, mobile, bookmarks, notes, Android, emacs
+#+TAGS:        emacs
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: How to store bookmarks from cell phones in an org agenda file
+
+
+This is the fourth article in a series on quick note taking using emacs.
+It shows a way to store article bookmarks from cell phones.
+
+1. Org agenda with date tree file
+2. Notes from browser window
+3. Notes from elfeed entries
+4. Org-dropbox
+
+* Org-dropbox
+
+*Org-dropbox* is an emacs package that automatically processes all notes
+from my cell phone and adds them an org file. It is also my first ever
+serious piece of code written in emacs lisp. The code in stored in
+[[https://github.com/heikkil/org-dropbox][Github]] and can be used from [[http://melpa.org/#/org-dropbox][MELPA]].
+
+Modern smart phones have several ways of sharing a note related to
+article or note. The nice thing about the phones is the all the
+applications are automatically able to use these methods. Sharing
+using Dropbox has two advantages:
+
+1) It keeps the notes to cloud for later retrieval.
+2) The note is plain text that is easy to parse.
+
+Org-dropbox is an emacs minor mode that starts a daemon that
+periodically scans a Dropbox directory, and formats and stores all notes
+it finds there to the org date-tree file. The time stamp of the note is
+the time the note was taken in the cell phone.
+
+To start using org-dropbox, add a few lines to your emacs
+configuration file. The first two lines below show the default
+directory where raw notes are stored and the agenda file where
+processed notes are placed. The third line starts the daemon that
+checks for incoming notes every hour.
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-dropbox-note-dir      "~/Dropbox/notes/")
+  (setq org-dropbox-datetree-file "~/Dropbox/org/reference.org")
+  (org-dropbox-mode)
+#+END_SRC
+
+If you need your notes from phone faster, you can always manually run
+command =org-dropbox-refile-notes= to process the notes, or you can
+change the variable =org-dropbox-refile-timer-interval=.
+
+I've been running org-dropbox for months now and everything has been
+working smoothly. The overhead of running the daemon in the background
+has never been noticeable.
+
+* Epilogue
+
+All my notes now find their way under the unified interface regardless
+of where I originally find them.
+
+This graph gives an overview of the four articles in this series.
+
+#+BEGIN_SRC plantuml :file workflow.png
+title: Note taking information flow
+class "org-agenda file" <<(1,gold)>>
+class "browser" <<(2,gold)>>
+class "elfeed" <<(3,gold)>>
+class "phone" <<(4,gold)>>
+
+browser --> "org-agenda file" : store
+elfeed  --> "org-agenda file" : store
+phone   --> "org-agenda file" : store
+"org-agenda file" --> "org-agenda file" : search
+#+END_SRC
+
+#+RESULTS:
+[[file:workflow.png]]
+

@@ -1,0 +1,100 @@
+#+TITLE:       Note taking 1: Org agenda with date tree file
+#+AUTHOR:      Heikki Lehväslaiho
+#+EMAIL:       heikki.lehvaslaiho@gmail.com
+#+DATE:        2015-05-07 Thu
+#+URI:         /blog/%y/%m/%d/notes-in-org-agenda
+#+KEYWORDS:    notes, bookmarks, emacs, agenda
+#+TAGS:        emacs
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: Org agenda date tree file is the ultimate note format
+
+This is the first article in a series on quick note taking using emacs.
+It introduces the org agenda, it's basic setup, and the file format
+to use.
+
+* Org agenda
+
+I take a lot of notes. Many things interest me, and I'd like to
+remember all the interesting articles I've read. The aim is to store
+notes as fast as I can to a place I can later quickly retrieve them.
+For me, the best way to do this is to store them in an emacs org file
+that is part of org mode agenda system.
+
+[[ttp://orgmode.org/][Org mode]] is part of the emacs but you have to load the org agenda
+that is it the note taking and calendar part of it. I'll ignore the
+calendar functions in the minimal setup instructions below.
+
+The key bindings are not automatically set up, but the it is customary
+to use =C-c a= for org-agenda.
+
+   #+BEGIN_SRC emacs-lisp
+     (global-set-key "\C-ca" 'org-agenda)
+     (require 'org-agenda)
+   #+END_SRC
+
+You can have several org files in a directory that hold all agenda
+entries. These files change rapidly so it is a good idea to keep them
+in Dropbox for extra protection.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq org-directory "~/Dropbox/org")
+   #+END_SRC
+
+The org mode has a commands to store notes in time oriented
+hierarchical structure known as date tree format where all notes from
+one day are under one heading. Day headers are under the month heading
+that is in turn under the top level year heading. Simple and logical.
+
+** Capture templates
+
+Capture templates automate the note taking. They create the higher
+level headers when needed and place the note in the correct place.
+Below I define only one template that I use for practically
+everything. It adds a time stamp line to the end of the note. The key
+binding for this note is =C-c c n=.
+
+   #+BEGIN_SRC emacs-lisp
+     (global-set-key "\C-cc" 'org-capture)
+     (setq org-capture-templates
+           (quote (
+                   ("n" "note" entry (file+datetree "~/Dropbox/org/reference.org")
+                    "* %?\nEntered on %U\n  %i"))))
+   #+END_SRC
+
+When you are finished writing the header and the body of a note, you
+press =C-c C-c= to save it and return to previous buffer.
+
+You could use several templates to store different topics with
+slightly different setup to different files, but I have found that to
+be an unnecessary complication. One template storing all notes to one
+file works best. At new year, I move all notes from the previous year
+to a separate file in the same directory.
+
+** Tags
+
+To categorize notes, you can add searchable tags to notes. Tags are
+defined in a list of string and key pairs:
+
+   #+BEGIN_SRC emacs-lisp
+    (setq org-tag-alist (quote (("BIO"    . ?b)
+                               ("COMP"    . ?c)
+                               ("EMACS"   . ?e)
+                               ("FOOD"    . ?f))))
+   #+END_SRC
+
+With the cursor on the note header, hit hit =C-c C-q= to see the list
+and select any subset of tags by pressing the shortcut keys. If none
+of those tags fit, hit the tab key to enter any string.
+
+** Searching
+
+The org agenda has several commands to find entries of interest. For
+finding a note, the most common search commands are based on substring,
+regexp (=C-c a s=), or tag (=C-c a t=).
+
+** Epilogue
+
+In next posts I will explore ways of populating the note file from
+different sources.
+
