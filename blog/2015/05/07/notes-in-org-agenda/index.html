@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Note taking 1: Org agenda with date tree file - Heikki @ home</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Heikki Lehväslaiho" />
+    <meta name="description" content="Org agenda date tree file is the ultimate note format" />
+    <meta name="keywords" content="notes, bookmarks, emacs, org, agenda" />
+    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+    <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
+</head>
+
+  <body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="/">Heikki @ home</a></h1>
+        <p>Loose leaves from my tree</p>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="https://github.com/heikkil">GitHub</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="http://www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="q" value="site:heikkil.github.io">
+        </form>
+        <img class="avatar" src="https://avatars0.githubusercontent.com/u/75674?v=3&amp;s=460" />
+      </header>
+    </div>
+
+<div>
+<div class="post">
+<h1>Note taking 1: Org agenda with date tree file</h1>
+<p>
+This is the first article in a series on quick note taking using emacs.
+It introduces the org agenda, it's basic setup, and the file format
+to use.
+</p>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Org agenda</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+I take a lot of notes. Many things interest me, and I'd like to
+remember all the interesting articles I've read. The aim is to store
+notes as fast as I can to a place I can later quickly retrieve them.
+For me, the best way to do this is to store them in an emacs org file
+that is part of org mode agenda system.
+</p>
+
+<p>
+<i>Org mode</i> is part of the emacs but you have to load the org agenda
+that is it the note taking and calendar part of it. I'll ignore the
+calendar functions in the minimal setup instructions below.
+</p>
+
+<p>
+The key bindings are not automatically set up, but the it is customary
+to use <code>C-c a</code> for org-agenda.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(global-set-key <span style="color: #8b2252;">"\C-ca"</span> 'org-agenda)
+(<span style="color: #a020f0;">require</span> '<span style="color: #008b8b;">org-agenda</span>)
+</pre>
+</div>
+
+<p>
+You can have several org files in a directory that hold all agenda
+entries. These files change rapidly so it is a good idea to keep them
+in Dropbox for extra protection.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq org-directory <span style="color: #8b2252;">"~/Dropbox/org"</span>)
+</pre>
+</div>
+
+<p>
+The org mode has a commands to store notes in time oriented
+hierarchical structure known as date tree format where all notes from
+one day are under one heading. Day headers are under the month heading
+that is in turn under the top level year heading. Simple and logical.
+</p>
+</div>
+
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Capture templates</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Capture templates automate the note taking. They create the higher
+level headers when needed and place the note in the correct place.
+Below I define only one template that I use for practically
+everything. It adds a time stamp line to the end of the note. The key
+binding for this note is <code>C-c c n</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(global-set-key <span style="color: #8b2252;">"\C-cc"</span> 'org-capture)
+(setq org-capture-templates
+      (quote (
+              (<span style="color: #8b2252;">"n"</span> <span style="color: #8b2252;">"note"</span> entry (file+datetree <span style="color: #8b2252;">"~/Dropbox/org/reference.org"</span>)
+               <span style="color: #8b2252;">"* %?\nEntered on %U\n  %i"</span>))))
+</pre>
+</div>
+
+<p>
+When you are finished writing the header and the body of a note, you
+press <code>C-c C-c</code> to save it and return to previous buffer.
+</p>
+
+<p>
+You could use several templates to store different topics with
+slightly different setup to different files, but I have found that to
+be an unnecessary complication. One template storing all notes to one
+file works best. At new year, I move all notes from the previous year
+to a separate file in the same directory.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Tags</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+To categorize notes, you can add searchable tags to notes. Tags are
+defined in a list of string and key pairs:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq org-tag-alist (quote ((<span style="color: #8b2252;">"BIO"</span>    . ?b)
+                           (<span style="color: #8b2252;">"COMP"</span>    . ?c)
+                           (<span style="color: #8b2252;">"EMACS"</span>   . ?e)
+                           (<span style="color: #8b2252;">"FOOD"</span>    . ?f))))
+</pre>
+</div>
+
+<p>
+With the cursor on the note header, hit hit <code>C-c C-q</code> to see the list
+and select any subset of tags by pressing the shortcut keys. If none
+of those tags fit, hit the tab key to enter any string.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Searching</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+The org agenda has several commands to find entries of interest. For
+finding a note, the most common search commands are based on substring,
+regexp (<code>C-c a s</code>), or tag (<code>C-c a t</code>).
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Epilogue</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+In next posts I will explore ways of populating the note file from
+different sources.
+</p>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2015-05-07</span>
+        <span title="last modification date" class="post-info">2015-05-07</span>
+        <span title="tags" class="post-info"><a href="/tags/emacs/">emacs</a></span>
+        <span title="author" class="post-info">Heikki Lehväslaiho</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+      </section>
+      <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js"></script>
+      <script src="/media/js/main.js"></script>
+      <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-59820721-1']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.x (<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:heikki &lt;dot&gt; lehvaslaiho &lt;at&gt; gmail &lt;dot&gt; com">Heikki Lehväslaiho</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+  </body>
+</html>
