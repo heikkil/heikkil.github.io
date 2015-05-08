@@ -36,7 +36,7 @@ using Chrome as my only browser anyway, so I decided to ignore all the
 other applications. I can call the Chrome-specific function
 =org-mac-chrome-insert-frontmost-url= directly.
 
-I bind it to =C-x l l= using a [[ttps://github.com/abo-abo/hydra][hydra]] that gives me the mnemonic "Emacs,
+I bind it to =C-x l l= using a [[https://github.com/abo-abo/hydra][hydra]] that gives me the mnemonic "Emacs,
 launch link".
 
 This is great for situations when I've researched a topic on browser
@@ -92,7 +92,7 @@ function that takes me the end of the latest link.
        (org-end-of-line))
 #+END_SRC
 
-I've bind that to =C-c z r= using my general purpose goto hydra:
+I've bind that to =C-c z r= using my general purpose goto [[https://github.com/abo-abo/hydra][hydra]]:
 
 #+BEGIN_SRC emacs-lisp
      (bind-key "C-c z" 'hydra-goto/body)
