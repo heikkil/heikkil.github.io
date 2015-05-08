@@ -1,0 +1,87 @@
+#+TITLE:       Note taking 2: Notes from browser window
+#+AUTHOR:      Heikki Lehväslaiho
+#+EMAIL:       heikki.lehvaslaiho@gmail.com
+#+DATE:        2015-05-08 Fri
+#+URI:         /blog/%y/%m/%d/notes-from-browser-window
+#+KEYWORDS:    notes, browser, bookmark, org, agenda
+#+TAGS:        emacs
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: Org note of the current browser window URL and title
+
+This is the second article in the series on quick note taking using
+emacs. It shows an easy way of taking a note of the current browser
+window URL and title under OS X.
+
+1. [[http://heikkil.github.io/blog/2015/05/07/notes-in-org-agenda/][Org agenda with date tree file]]
+2. Notes from browser window
+
+* OS X
+
+I've been using a Mac laptop as my main computer for a few years now,
+so these instructions work only under OS X.
+
+** Interactive approach
+
+I've installed package called [[http://orgmode.org/worg/org-contrib/org-mac-link.html][org-mac-link]] that grabs links from open
+applications and pastes them to current org-buffer. Running the
+command =M-x org-mac-grab-link RET= shows a menu of available
+applications. An org link from the selected application gets pasted
+into your emacs buffer.
+
+** Linking to Chrome
+
+After a while having to go through the menu became annoying. I am
+using Chrome as my only browser anyway, so I decided to ignore all the
+other applications. I can call the Chrome-specific function
+=org-mac-chrome-insert-frontmost-url= directly.
+
+I bind it to =C-x l l= using a [[ttps://github.com/abo-abo/hydra][hydra]] that gives me the mnemonic "Emacs,
+launch link".
+
+This is great for situations when I've researched a topic on browser
+and have several related tabs open. I use the org capture note defined
+in [[http://heikkil.github.io/blog/2015/05/07/notes-in-org-agenda/][the previous article]] in this series with =C-c c n=, write the title
+and add a link for each open tab.
+
+** Immediate linking
+
+Again, after some time I noticed this note taking could be streamlined
+even more. Most of time I want to take a note of just a single web
+page.
+
+Since the note uses org-capture, it can be called directly from emacs
+lisp and combined with other commands to build a function that does
+everything needed.
+
+I've bound the function =my/quick-url-note= to global key =C-c v=.
+Whenever I read an interesting article in Chrome, I now switch to
+emacs, press those keys and my note is stored.
+
+I've recently started using use-package for configuring all my emacs
+packages. The clarity, scope and compactness of the code below
+is enough reason:
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org-mac-link
+    :ensure t
+    :if (eq system-type 'darwin)
+    :bind ("C-c v" . my/quick-url-note)
+    :config
+    (defun my/quick-url-note ()
+      "Fastest way to capture a web page link"
+      (interactive)
+      (org-capture nil "n")
+      (org-mac-chrome-insert-frontmost-url)
+      (org-capture-finalize)))
+#+END_SRC
+
+
+* Linux
+
+While the code presented here works only on OS X, it is definitely
+possible to do the same under Linux. If you want to explore how, here
+a couple of links that might help:
+
+- [[http://tech.memoryimprintstudio.com/?p%3D160][Org Capture from External Applications]]
+- [[https://github.com/rexim/org-cliplink][org-cliplink]], an alternative
