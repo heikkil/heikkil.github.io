@@ -76,6 +76,40 @@ is enough reason:
       (org-capture-finalize)))
 #+END_SRC
 
+** Editing the last link
+
+Quite often after adding a note link, I realize that I want to add a
+few more words of explanation to the note. This is made easier by the
+function that takes me the end of the latest link.
+
+#+BEGIN_SRC emacs-lisp
+     (defun my/last-captured-org-note ()
+       "Move to the end of penultimate line of the last org capture note."
+       (interactive)
+       (find-file "~/Dropbox/org/reference.org")
+       (end-of-buffer)
+       (forward-line -2)
+       (org-end-of-line))
+#+END_SRC
+
+I've bind that to =C-c z r= using my general purpose goto hydra:
+
+#+BEGIN_SRC emacs-lisp
+     (bind-key "C-c z" 'hydra-goto/body)
+     (defhydra hydra-goto (:color blue :hint nil)
+       "
+       goto   file                        info
+              --------------------------------------
+              _e_macs.org                 _o_rg
+              _r_eference.org: last note
+              _w_ork.org
+           "
+       ("e" (find-file "~/.emacs.d/emacs.org"))
+       ("r" my/last-captured-org-note)
+       ("w" (find-file "~/Dropbox/org/work.org"))
+       ("o" org-info))
+#+END_SRC
+
 
 * Linux
 
