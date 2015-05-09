@@ -14,7 +14,8 @@ emacs. It shows an easy way of taking a note of the current browser
 window URL and title under OS X.
 
 1. [[Org agenda with date tree file]]
-2. Notes from browser window
+2. [[http://heikkil.github.io/blog/2015/05/08/notes-from-browser-window/][Notes from browser window]]
+3. [[http://heikkil.github.io/blog/2015/05/09/notes-from-elfeed-entries/][Notes from elfeed entries]]
 
 * OS X
 

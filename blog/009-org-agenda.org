@@ -13,6 +13,10 @@ This is the first article in a series on quick note taking using emacs.
 It introduces the org agenda, it's basic setup, and the file format
 to use.
 
+1. Org agenda with date tree file
+2. [[http://heikkil.github.io/blog/2015/05/08/notes-from-browser-window/][Notes from browser window]]
+3. [[http://heikkil.github.io/blog/2015/05/09/notes-from-elfeed-entries/][Notes from elfeed entries]]
+
 * Org agenda
 
 I take a lot of notes. Many things interest me, and I'd like to
