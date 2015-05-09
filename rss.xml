@@ -4,10 +4,17 @@
     <title>Heikki @ home</title>
     <link>http://heikkil.github.io</link>
     <description>Loose leaves from my tree</description>
-    <pubDate>Fri, 08 May 2015 06:55:42 EEST</pubDate>
-    <lastBuildDate>Fri, 08 May 2015 06:55:42 EEST</lastBuildDate>
+    <pubDate>Sat, 09 May 2015 07:32:17 EEST</pubDate>
+    <lastBuildDate>Sat, 09 May 2015 07:32:17 EEST</lastBuildDate>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>Org-page static site generator (https://github.com/kelvinh/org-page)</generator>
+    <item>
+      <title>Note taking 3: Notes from elfeed entries</title>
+      <link>http://heikkil.github.io/blog/2015/05/09/notes-from-elfeed-entries</link>
+      <description>How to create an org note of an elfeed entry</description>
+      <pubDate>2015-05-09</pubDate>
+      <guid>http://heikkil.github.io/blog/2015/05/09/notes-from-elfeed-entries</guid>
+    </item>
     <item>
       <title>Note taking 1: Org agenda with date tree file</title>
       <link>http://heikkil.github.io/blog/2015/05/07/notes-in-org-agenda</link>
@@ -70,13 +77,6 @@
       <description>Custom speed functions for elfeed</description>
       <pubDate>2015-03-02</pubDate>
       <guid>http://heikkil.github.io/blog/2015/02/24/custom-elfeed-filter-functions</guid>
-    </item>
-    <item>
-      <title>Org-page blogging engine</title>
-      <link>http://heikkil.github.io/blog/2015/02/16/org-page-blogging-engine</link>
-      <description>First post about the tech used</description>
-      <pubDate>2015-02-23</pubDate>
-      <guid>http://heikkil.github.io/blog/2015/02/16/org-page-blogging-engine</guid>
     </item>
   </channel>
 </rss>
