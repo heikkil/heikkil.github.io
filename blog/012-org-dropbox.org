@@ -103,6 +103,7 @@ class "phone" <<(4,gold)>>
 
 browser --> "org-agenda file" : store
 elfeed  --> "org-agenda file" : store
+elfeed -left-> browser : view
 phone   --> "org-agenda file" : store
 "org-agenda file" --> "org-agenda file" : search
 #+END_SRC
