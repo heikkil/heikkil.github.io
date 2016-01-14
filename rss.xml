@@ -4,10 +4,17 @@
     <title>Heikki @ home</title>
     <link>http://heikkil.github.io</link>
     <description>Loose leaves from my tree</description>
-    <pubDate>Thu, 14 Jan 2016 10:45:36 EET</pubDate>
-    <lastBuildDate>Thu, 14 Jan 2016 10:45:36 EET</lastBuildDate>
+    <pubDate>Thu, 14 Jan 2016 10:47:29 EET</pubDate>
+    <lastBuildDate>Thu, 14 Jan 2016 10:47:29 EET</lastBuildDate>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>Org-page static site generator (https://github.com/kelvinh/org-page)</generator>
+    <item>
+      <title>White Lady of the Forest</title>
+      <link>http://heikkil.github.io/blog/2016/01/14/white-lady</link>
+      <description><![CDATA[White lady of the forest]]></description>
+      <pubDate>2016-01-14</pubDate>
+      <guid>http://heikkil.github.io/blog/2016/01/14/white-lady</guid>
+    </item>
     <item>
       <title>Note taking 4: Notes from phones using org-dropbox</title>
       <link>http://heikkil.github.io/blog/2015/05/10/notes-using-org-dropbox</link>
@@ -70,13 +77,6 @@
       <description><![CDATA[]]></description>
       <pubDate>2015-03-16</pubDate>
       <guid>http://heikkil.github.io/blog/2015/03/16/snowing</guid>
-    </item>
-    <item>
-      <title>Snowing</title>
-      <link>http://heikkil.github.io/blog/2015/03/02/snowing</link>
-      <description><![CDATA[]]></description>
-      <pubDate>2015-03-04</pubDate>
-      <guid>http://heikkil.github.io/blog/2015/03/02/snowing</guid>
     </item>
   </channel>
 </rss>
