@@ -1,0 +1,111 @@
+#+TITLE:       feh as image organizer
+#+AUTHOR:      Heikki Lehvaslaiho
+#+EMAIL:       heikki.lehvaslaiho@gmail.com
+#+DATE:        2016-02-24 Thu
+#+URI:         /blog/%y/%m/%d/feh
+#+KEYWORDS:    command-line osx
+#+TAGS:        unix, photography
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: Enhance the feh command line tool for picture management
+
+* Summary
+
+How to use the command line image viewer =feh= to do basic
+organizational tasks for photographs.
+
+* Background
+
+Digital photography creates image files in way larger quantities than
+film-based photography. Disk space is cheap and taking an other
+picture does not cost anything. New cameras create several types of
+image files and we invent new ways of processing them all the time. I
+find it much more convenient to have a number of simple UNIX-like
+tools that can be mixed and matched than trying to use an
+all-encompassing  GUI tool that has its own work flow.
+
+For many years I was happy user of [[https://spiegl.de/qiv/][QIV - Quick Image Viewer]] written
+for UNIX. I even contributed to its user interface to get it do
+exactly what I wanted. It used to be available for OS X through
+[[http://brew.sh/][homebrew.]] Unfortunately, its last update is from 2013 and
+last year homebrew dropped it complaining that it has become
+impossible to compile.
+
+* Work flow
+
+My work flow with qiv was to copy all taken pictures from the camera
+memory card to chronologically named directories in my computer, view
+all JPG files and select images for either postprocessing by making a
+copy of them into a subdirectory or for deletion by moving them to an
+other subdirectory. Qiv has keyboard shortcuts for these
+functions.
+
+* feh and action keys
+
+Enter [[https://feh.finalrewind.org/][feh]] that is touted as being the best supported tool for image
+viewing. While it can do many things, vanilla feh definitely does not
+allow transient adjustment of image brightness, contrast and gamma
+using keys, nor can it remove or copy the viewed image file. Or can
+it?
+
+feh has a feature called *action keys*. The number keys are
+programmable by custom shell commands.
+
+The following two files, =feh-copy.sh= ([[https://gist.github.com/heikkil/63f3c36b7eabb7030d8f][gist]]) and =feh-remove.sh=
+([[https://gist.github.com/heikkil/da9f32c5ddca8391ccab][gist]]), take the pathname to a file as an argument and copy or move
+them to a subdirectory that first gets created if necessary. These
+scripts never destroy files. That will require additional manual steps
+to safeguard against accidental deletion.
+
+#+NAME: feh-copy.sh
+#+BEGIN_SRC sh
+#!/bin/sh
+# ~/bin/feh-copy.sh
+DIR=`dirname $1`
+if [ ! -d $DIR/copied ]; then
+    mkdir $DIR/copied
+fi;
+cp $1 $DIR/copied
+#+END_SRC
+
+#+NAME: feh-remove.sh
+#+BEGIN_SRC sh
+#!/bin/sh
+# ~/bin/feh-remove.sh
+DIR=`dirname $1`
+if [ ! -d $DIR/removed ]; then
+    mkdir $DIR/removed
+fi;
+mv $1 $DIR/removed
+#+END_SRC
+
+After placing these files into =~/bin= directory and making them
+executable, we can create an alias for feh using these scripts. =q= is
+obviously my old shorthand for =qiv=.
+
+#+BEGIN_SRC sh
+alias q='feh -FqVrY \
+         --action1 "~/bin/feh-copy.sh %F" \
+         --action3 "~/bin/feh-remove.sh %F"'
+#+END_SRC
+
+Inside a running feh (=q *.JPG=) you can press the 'a' key to see a
+reminder of these actions.
+
+Once you have selected copies of files you want to work on and moved
+the unwanted ones, you return to the command line. I usually run feh
+on the =removed= subdirectory before deleting the contents with =rm
+-rf removed=.
+
+* Additional helper scripts
+
+If you have set up your camera like me, you have both JPG and raw
+image files in your working directory. You might want to delete the
+raw files that correspond to the just removed JPGs. I have written a
+perl script called =orphan_raw= ([[https://gist.github.com/heikkil/fc09fb7df32fe5d404fd][gist]]) for that.
+
+Also, I sometimes want to work on raw files that correspond to the
+just selected JPGs. The script =raw_copy= ([[https://gist.github.com/heikkil/bcdddfbdf4d65463337b][gist]]) makes copies of them
+in a subdirectory called =raw= where you process them. In my work
+flow, final images from all temporary subdirectories are eventually
+combined into a subdirectory =w= for 'worked-on'.
