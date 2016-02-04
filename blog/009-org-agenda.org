@@ -25,7 +25,7 @@ notes as fast as I can to a place I can later quickly retrieve them.
 For me, the best way to do this is to store them in an emacs org file
 that is part of org mode agenda system.
 
-[[ttp://orgmode.org/][Org mode]] is part of the emacs but you have to load the org agenda
+[[http://orgmode.org/][Org mode]] is part of the emacs but you have to load the org agenda
 that is it the note taking and calendar part of it. I'll ignore the
 calendar functions in the minimal setup instructions below.
 
@@ -101,4 +101,3 @@ regexp (=C-c a s=), or tag (=C-c a t=).
 
 In next posts I will explore ways of populating the note file from
 different sources.
-
