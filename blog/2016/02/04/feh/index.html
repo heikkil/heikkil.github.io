@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>feh as image organizer - Heikki @ home</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Heikki Lehväslaiho" />
+    <meta name="description" content="Enhance the feh command line tool for picture management" />
+    <meta name="keywords" content="command-line, osx" />
+    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+    <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
+</head>
+
+  <body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="/">Heikki @ home</a></h1>
+        <p>Loose leaves from my tree</p>
+        <ul>
+          <li><a href="/_drafts/">_Drafts</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="https://github.com/heikkil">GitHub</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="http://www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="q" value="site:heikkil.github.io">
+        </form>
+        <img class="avatar" src="https://avatars0.githubusercontent.com/u/75674?v=3&amp;s=460" />
+      </header>
+    </div>
+
+<div>
+<div class="post">
+<h1>feh as image organizer</h1>
+
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1">Summary</h2>
+<div class="outline-text-2" id="text-orgheadline1">
+<p>
+How to use the command line image viewer <code>feh</code> to do basic
+organizational tasks for photographs.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline2" class="outline-2">
+<h2 id="orgheadline2">Background</h2>
+<div class="outline-text-2" id="text-orgheadline2">
+<p>
+Digital photography creates image files in way larger quantities than
+film-based photography. Disk space is cheap and taking an other
+picture does not cost anything. New cameras create several types of
+image files and we invent new ways of processing them all the time. I
+find it much more convenient to have a number of simple UNIX-like
+tools that can be mixed and matched than trying to use an
+all-encompassing  GUI tool that has its own work flow.
+</p>
+
+<p>
+For many years I was happy user of <a href="https://spiegl.de/qiv/">QIV - Quick Image Viewer</a> written
+for UNIX. I even contributed to its user interface to get it do
+exactly what I wanted. It used to be available for OS X through
+<a href="http://brew.sh/">homebrew.</a> Unfortunately, its last update is from 2013 and
+last year homebrew dropped it complaining that it has become
+impossible to compile.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline3" class="outline-2">
+<h2 id="orgheadline3">Work flow</h2>
+<div class="outline-text-2" id="text-orgheadline3">
+<p>
+My work flow with qiv was to copy all taken pictures from the camera
+memory card to chronologically named directories in my computer, view
+all JPG files and select images for either postprocessing by making a
+copy of them into a subdirectory or for deletion by moving them to an
+other subdirectory. Qiv has keyboard shortcuts for these
+functions.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline4" class="outline-2">
+<h2 id="orgheadline4">feh and action keys</h2>
+<div class="outline-text-2" id="text-orgheadline4">
+<p>
+Enter <a href="https://feh.finalrewind.org/">feh</a> that is touted as being the best supported tool for image
+viewing. While it can do many things, vanilla feh definitely does not
+allow transient adjustment of image brightness, contrast and gamma
+using keys, nor can it remove or copy the viewed image file. Or can
+it?
+</p>
+
+<p>
+feh has a feature called <b>action keys</b>. The number keys are
+programmable by custom shell commands.
+</p>
+
+<p>
+The following two files, <code>feh-copy.sh</code> (<a href="https://gist.github.com/heikkil/63f3c36b7eabb7030d8f">gist</a>) and <code>feh-remove.sh</code>
+(<a href="https://gist.github.com/heikkil/da9f32c5ddca8391ccab">gist</a>), take the pathname to a file as an argument and copy or move
+them to a subdirectory that first gets created if necessary. These
+scripts never destroy files. That will require additional manual steps
+to safeguard against accidental deletion.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh" id="orgsrcblock1">#!/bin/sh
+# ~/bin/feh-copy.sh
+DIR=`dirname $1`
+if [ ! -d $DIR/copied ]; then
+    mkdir $DIR/copied
+fi;
+cp $1 $DIR/copied
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-sh" id="orgsrcblock2">#!/bin/sh
+# ~/bin/feh-remove.sh
+DIR=`dirname $1`
+if [ ! -d $DIR/removed ]; then
+    mkdir $DIR/removed
+fi;
+mv $1 $DIR/removed
+</pre>
+</div>
+
+<p>
+After placing these files into <code>~/bin</code> directory and making them
+executable, we can create an alias for feh using these scripts. <code>q</code> is
+obviously my old shorthand for <code>qiv</code>.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh">alias q='feh -FqVrY \
+         --action1 "~/bin/feh-copy.sh %F" \
+         --action3 "~/bin/feh-remove.sh %F"'
+</pre>
+</div>
+
+<p>
+Inside a running feh (<code>q *.JPG</code>) you can press the 'a' key to see a
+reminder of these actions.
+</p>
+
+<p>
+Once you have selected copies of files you want to work on and moved
+the unwanted ones, you return to the command line. I usually run feh
+on the <code>removed</code> subdirectory before deleting the contents with <code>rm
+-rf removed</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline5" class="outline-2">
+<h2 id="orgheadline5">Additional helper scripts</h2>
+<div class="outline-text-2" id="text-orgheadline5">
+<p>
+If you have set up your camera like me, you have both JPG and raw
+image files in your working directory. You might want to delete the
+raw files that correspond to the just removed JPGs. I have written a
+perl script called <code>orphan_raw</code> (<a href="https://gist.github.com/heikkil/fc09fb7df32fe5d404fd">gist</a>) for that.
+</p>
+
+<p>
+Also, I sometimes want to work on raw files that correspond to the
+just selected JPGs. The script <code>raw_copy</code> (<a href="https://gist.github.com/heikkil/bcdddfbdf4d65463337b">gist</a>) makes copies of them
+in a subdirectory called <code>raw</code> where you process them. In my work
+flow, final images from all temporary subdirectories are eventually
+combined into a subdirectory <code>w</code> for 'worked-on'.
+</p>
+</div>
+</div>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2016-02-04</span>
+        <span title="last modification date" class="post-info">2016-02-04</span>
+        <span title="tags" class="post-info"><a href="/tags/unix/">unix</a>, <a href="/tags/photography/">photography</a></span>
+        <span title="author" class="post-info">Heikki Lehväslaiho</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+      </section>
+      <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js"></script>
+      <script src="/media/js/main.js"></script>
+      <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-59820721-1']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.x (<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:heikki &lt;dot&gt; lehvaslaiho &lt;at&gt; gmail &lt;dot&gt; com">Heikki Lehväslaiho</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+  </body>
+</html>

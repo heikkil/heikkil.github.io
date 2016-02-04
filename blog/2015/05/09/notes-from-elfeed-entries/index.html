@@ -17,6 +17,7 @@
         <h1 class="masthead-title"><a href="/">Heikki @ home</a></h1>
         <p>Loose leaves from my tree</p>
         <ul>
+          <li><a href="/_drafts/">_Drafts</a></li>
           <li><a href="/blog/">Blog</a></li>
           <li><a href="/tags/">Tags</a></li>
           <li><a href="/about/">About</a></li>
@@ -41,21 +42,18 @@ entry in elfeed news reader with one key press.
 </p>
 
 <ol class="org-ol">
-<li><a href="http://heikkil.github.io/blog/2015/05/07/notes-in-org-agenda/">Org agenda with date tree file</a>
-</li>
-<li><a href="http://heikkil.github.io/blog/2015/05/08/notes-from-browser-window/">Notes from browser window</a>
-</li>
-<li>Notes from elfeed entries
-</li>
+<li><a href="http://heikkil.github.io/blog/2015/05/07/notes-in-org-agenda/">Org agenda with date tree file</a></li>
+<li><a href="http://heikkil.github.io/blog/2015/05/08/notes-from-browser-window/">Notes from browser window</a></li>
+<li>Notes from elfeed entries</li>
 </ol>
 
-<div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">Elfeed</h2>
-<div class="outline-text-2" id="text-1">
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1">Elfeed</h2>
+<div class="outline-text-2" id="text-orgheadline1">
 <p>
 <a href="https://github.com/skeeto/elfeed">Elfeed</a> is a web feed reader that is written in emacs lisp that makes
 it <a href="http://heikkil.github.io/blog/2015/02/24/custom-elfeed-filter-functions/">easy to modify</a> and extend for different work flows. I use it with
-<i>elfeed-org</i> package to follow dozens of web sites. Every now and
+<a href="https://github.com/remyhonig/elfeed-org">elfeed-org</a> package to follow dozens of web sites. Every now and
 then I do not want to open an entry in the browser but to make a quick
 note of it into my <a href="http://heikkil.github.io/blog/2015/05/07/notes-in-org-agenda/">org notes</a> directly from  elfeed.
 </p>
@@ -75,9 +73,9 @@ renders (part of) the entry itself.
 </p>
 </div>
 
-<div id="outline-container-sec-1-1" class="outline-3">
-<h3 id="sec-1-1">Copy the link string</h3>
-<div class="outline-text-3" id="text-1-1">
+<div id="outline-container-orgheadline2" class="outline-3">
+<h3 id="orgheadline2">Copy the link string</h3>
+<div class="outline-text-3" id="text-orgheadline2">
 <p>
 I first define a generic function elfeed-link-title that takes an
 elfeed entry object as an argument. It creates the org link from the
@@ -86,28 +84,28 @@ URL and the title of the entry and places the string in the clipboard.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(<span style="color: #a020f0;">defun</span> <span style="color: #0000ff;">elfeed-link-title</span> (entry)
-  <span style="color: #8b2252;">"Copy the entry title and URL as org link to the clipboard."</span>
+<pre class="src src-emacs-lisp">(defun elfeed-link-title (entry)
+  "Copy the entry title and URL as org link to the clipboard."
   (interactive)
-  (<span style="color: #a020f0;">let*</span> ((link (elfeed-entry-link entry))
+  (let* ((link (elfeed-entry-link entry))
          (title (elfeed-entry-title entry))
-         (titlelink (concat <span style="color: #8b2252;">"[["</span> link <span style="color: #8b2252;">"]["</span> title <span style="color: #8b2252;">"]]"</span>)))
-    (<span style="color: #a020f0;">when</span> titlelink
+         (titlelink (concat "[[" link "][" title "]]")))
+    (when titlelink
       (kill-new titlelink)
       (x-set-selection 'PRIMARY titlelink)
-      (message <span style="color: #8b2252;">"Yanked: %s"</span> titlelink))))
+      (message "Yanked: %s" titlelink))))
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-1-2" class="outline-3">
-<h3 id="sec-1-2">Elfeed-show mode</h3>
-<div class="outline-text-3" id="text-1-2">
+<div id="outline-container-orgheadline3" class="outline-3">
+<h3 id="orgheadline3">Elfeed-show mode</h3>
+<div class="outline-text-3" id="text-orgheadline3">
 <p>
 The elfeed-show mode link command simply calls that function with the
 current entry. The note command does the same and uses the note org
-capture function defined in <i>the first article in this series</i> to store
+capture function defined in <a href="http://heikkil.github.io/blog/2015/05/07/notes-in-org-agenda/">the first article in this series</a> to store
 the link.
 </p>
 
@@ -118,30 +116,30 @@ to these functions.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(<span style="color: #a020f0;">defun</span> <span style="color: #0000ff;">elfeed-show-link-title</span> ()
-  <span style="color: #8b2252;">"Copy the current entry title and URL as org link to the clipboard."</span>
+<pre class="src src-emacs-lisp">(defun elfeed-show-link-title ()
+  "Copy the current entry title and URL as org link to the clipboard."
   (interactive)
   (elfeed-link-title elfeed-show-entry))
 
-(<span style="color: #a020f0;">defun</span> <span style="color: #0000ff;">elfeed-show-quick-url-note</span> ()
-  <span style="color: #8b2252;">"Fastest way to capture entry link to org agenda from elfeed show mode"</span>
+(defun elfeed-show-quick-url-note ()
+  "Fastest way to capture entry link to org agenda from elfeed show mode"
   (interactive)
   (elfeed-link-title elfeed-show-entry)
-  (org-capture nil <span style="color: #8b2252;">"n"</span>)
+  (org-capture nil "n")
   (yank)
   (org-capture-finalize))
 
-(bind-keys <span style="color: #483d8b;">:map</span> elfeed-show-mode-map
-           (<span style="color: #8b2252;">"l"</span> . elfeed-show-link-title)
-           (<span style="color: #8b2252;">"v"</span> . elfeed-show-quick-url-note)))
+(bind-keys :map elfeed-show-mode-map
+           ("l" . elfeed-show-link-title)
+           ("v" . elfeed-show-quick-url-note)))
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-1-3" class="outline-3">
-<h3 id="sec-1-3">Elfeed-search mode</h3>
-<div class="outline-text-3" id="text-1-3">
+<div id="outline-container-orgheadline4" class="outline-3">
+<h3 id="orgheadline4">Elfeed-search mode</h3>
+<div class="outline-text-3" id="text-orgheadline4">
 <p>
 The elfeed-search mode can have several entries selected, so the
 functions need to loop over them although selecting multiple entries
@@ -152,41 +150,41 @@ as read and the focus in moved to the next line.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">  (<span style="color: #a020f0;">defun</span> <span style="color: #0000ff;">elfeed-search-link-title</span> ()
-    <span style="color: #8b2252;">"Copy the current entry title and URL as org link to the clipboard."</span>
+<pre class="src src-emacs-lisp">  (defun elfeed-search-link-title ()
+    "Copy the current entry title and URL as org link to the clipboard."
     (interactive)
-    (<span style="color: #a020f0;">let</span> ((entries (elfeed-search-selected)))
-      (<span style="color: #a020f0;">cl-loop</span> for entry in entries
+    (let ((entries (elfeed-search-selected)))
+      (cl-loop for entry in entries
                when (elfeed-entry-link entry)
                do (elfeed-link-title entry))))
 
-  (<span style="color: #a020f0;">defun</span> <span style="color: #0000ff;">elfeed-search-quick-url-note</span> ()
-    <span style="color: #8b2252;">"In search mode, capture the title and link for the selected</span>
-<span style="color: #8b2252;">entry or entries in org aganda."</span>
+  (defun elfeed-search-quick-url-note ()
+    "In search mode, capture the title and link for the selected
+entry or entries in org aganda."
     (interactive)
-    (<span style="color: #a020f0;">let</span> ((entries (elfeed-search-selected)))
-      (<span style="color: #a020f0;">cl-loop</span> for entry in entries
+    (let ((entries (elfeed-search-selected)))
+      (cl-loop for entry in entries
                do (elfeed-untag entry 'unread)
                when (elfeed-entry-link entry)
                do (elfeed-link-title entry)
-               do (org-capture nil <span style="color: #8b2252;">"n"</span>)
+               do (org-capture nil "n")
                do (yank)
                do (org-capture-finalize)
                (mapc #'elfeed-search-update-entry entries))
-      (<span style="color: #a020f0;">unless</span> (use-region-p) (forward-line))))
+      (unless (use-region-p) (forward-line))))
 
-  (bind-keys <span style="color: #483d8b;">:map</span> elfeed-search-mode-map
-             (<span style="color: #8b2252;">"l"</span> . elfeed-search-link-title)
-             (<span style="color: #8b2252;">"v"</span> . elfeed-search-quick-url-note))
+  (bind-keys :map elfeed-search-mode-map
+             ("l" . elfeed-search-link-title)
+             ("v" . elfeed-search-quick-url-note))
 </pre>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">Epilogue</h2>
-<div class="outline-text-2" id="text-2">
+<div id="outline-container-orgheadline5" class="outline-2">
+<h2 id="orgheadline5">Epilogue</h2>
+<div class="outline-text-2" id="text-orgheadline5">
 <p>
 For the above code snippets to be fully functional they need to be within
 <a href="https://github.com/jwiegley/use-package">use-package</a> macro as in <a href="https://gist.github.com/heikkil/1feaf53133b56e5c51e1">this gist</a>. Otherwise the key bindings will fail.
@@ -199,7 +197,7 @@ For the above code snippets to be fully functional they need to be within
     <div>
       <div class="post-meta">
         <span title="post date" class="post-info">2015-05-09</span>
-        <span title="last modification date" class="post-info">2015-05-09</span>
+        <span title="last modification date" class="post-info">2016-02-04</span>
         <span title="tags" class="post-info"><a href="/tags/emacs/">emacs</a></span>
         <span title="author" class="post-info">Heikki Lehväslaiho</span>
       </div>
@@ -220,7 +218,7 @@ For the above code snippets to be fully functional they need to be within
         })();
       </script>
       <div class="footer">
-        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.x (<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.x (<a href="http://orgmode.org">Org mode</a> 8.x)</p>
         <p>
           Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:heikki &lt;dot&gt; lehvaslaiho &lt;at&gt; gmail &lt;dot&gt; com">Heikki Lehväslaiho</a>
           &nbsp;&nbsp;-&nbsp;&nbsp;

@@ -17,6 +17,7 @@
         <h1 class="masthead-title"><a href="/">Heikki @ home</a></h1>
         <p>Loose leaves from my tree</p>
         <ul>
+          <li><a href="/_drafts/">_Drafts</a></li>
           <li><a href="/blog/">Blog</a></li>
           <li><a href="/tags/">Tags</a></li>
           <li><a href="/about/">About</a></li>
@@ -41,26 +42,23 @@ window URL and title under OS X.
 </p>
 
 <ol class="org-ol">
-<li><a href="http://heikkil.github.io/blog/2015/05/07/notes-in-org-agenda/">Org agenda with date tree file</a>
-</li>
-<li>Notes from browser window
-</li>
-<li><a href="http://heikkil.github.io/blog/2015/05/09/notes-from-elfeed-entries/">Notes from elfeed entries</a>
-</li>
+<li><a href="http://heikkil.github.io/blog/2015/05/07/notes-in-org-agenda/">Org agenda with date tree file</a></li>
+<li>Notes from browser window</li>
+<li><a href="http://heikkil.github.io/blog/2015/05/09/notes-from-elfeed-entries/">Notes from elfeed entries</a></li>
 </ol>
 
-<div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">OS X</h2>
-<div class="outline-text-2" id="text-1">
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1">OS X</h2>
+<div class="outline-text-2" id="text-orgheadline1">
 <p>
 I've been using a Mac laptop as my main computer for a few years now,
 so these instructions work only under OS X.
 </p>
 </div>
 
-<div id="outline-container-sec-1-1" class="outline-3">
-<h3 id="sec-1-1">Interactive approach</h3>
-<div class="outline-text-3" id="text-1-1">
+<div id="outline-container-orgheadline2" class="outline-3">
+<h3 id="orgheadline2">Interactive approach</h3>
+<div class="outline-text-3" id="text-orgheadline2">
 <p>
 I've installed package called <a href="http://orgmode.org/worg/org-contrib/org-mac-link.html">org-mac-link</a> that grabs links from open
 applications and pastes them to current org-buffer. Running the
@@ -71,9 +69,9 @@ into your emacs buffer.
 </div>
 </div>
 
-<div id="outline-container-sec-1-2" class="outline-3">
-<h3 id="sec-1-2">Linking to Chrome</h3>
-<div class="outline-text-3" id="text-1-2">
+<div id="outline-container-orgheadline3" class="outline-3">
+<h3 id="orgheadline3">Linking to Chrome</h3>
+<div class="outline-text-3" id="text-orgheadline3">
 <p>
 After a while having to go through the menu became annoying. I am
 using Chrome as my only browser anyway, so I decided to ignore all the
@@ -95,9 +93,9 @@ and add a link for each open tab.
 </div>
 </div>
 
-<div id="outline-container-sec-1-3" class="outline-3">
-<h3 id="sec-1-3">Immediate linking</h3>
-<div class="outline-text-3" id="text-1-3">
+<div id="outline-container-orgheadline4" class="outline-3">
+<h3 id="orgheadline4">Immediate linking</h3>
+<div class="outline-text-3" id="text-orgheadline4">
 <p>
 Again, after some time I noticed this note taking could be streamlined
 even more. Most of time I want to take a note of just a single web
@@ -124,15 +122,15 @@ is enough reason:
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(<span style="color: #a020f0;">use-package</span> <span style="color: #008b8b;">org-mac-link</span>
-  <span style="color: #483d8b;">:ensure</span> t
-  <span style="color: #483d8b;">:if</span> (eq system-type 'darwin)
-  <span style="color: #483d8b;">:bind</span> (<span style="color: #8b2252;">"C-c v"</span> . my/quick-url-note)
-  <span style="color: #483d8b;">:config</span>
-  (<span style="color: #a020f0;">defun</span> <span style="color: #0000ff;">my/quick-url-note</span> ()
-    <span style="color: #8b2252;">"Fastest way to capture a web page link"</span>
+<pre class="src src-emacs-lisp">(use-package org-mac-link
+  :ensure t
+  :if (eq system-type 'darwin)
+  :bind ("C-c v" . my/quick-url-note)
+  :config
+  (defun my/quick-url-note ()
+    "Fastest way to capture a web page link"
     (interactive)
-    (org-capture nil <span style="color: #8b2252;">"n"</span>)
+    (org-capture nil "n")
     (org-mac-chrome-insert-frontmost-url)
     (org-capture-finalize)))
 </pre>
@@ -140,9 +138,9 @@ is enough reason:
 </div>
 </div>
 
-<div id="outline-container-sec-1-4" class="outline-3">
-<h3 id="sec-1-4">Editing the last link</h3>
-<div class="outline-text-3" id="text-1-4">
+<div id="outline-container-orgheadline5" class="outline-3">
+<h3 id="orgheadline5">Editing the last link</h3>
+<div class="outline-text-3" id="text-orgheadline5">
 <p>
 Quite often after adding a note link, I realize that I want to add a
 few more words of explanation to the note. This is made easier by the
@@ -151,10 +149,10 @@ function that takes me the end of the latest link.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(<span style="color: #a020f0;">defun</span> <span style="color: #0000ff;">my/last-captured-org-note</span> ()
-  <span style="color: #8b2252;">"Move to the end of penultimate line of the last org capture note."</span>
+<pre class="src src-emacs-lisp">(defun my/last-captured-org-note ()
+  "Move to the end of penultimate line of the last org capture note."
   (interactive)
-  (find-file <span style="color: #8b2252;">"~/Dropbox/org/reference.org"</span>)
+  (find-file "~/Dropbox/org/reference.org")
   (end-of-buffer)
   (forward-line -2)
   (org-end-of-line))
@@ -167,19 +165,19 @@ I've bind that to <code>C-c z r</code> using my general purpose goto <a href="ht
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(bind-key <span style="color: #8b2252;">"C-c z"</span> 'hydra-goto/body)
-(defhydra hydra-goto (<span style="color: #483d8b;">:color</span> blue <span style="color: #483d8b;">:hint</span> nil)
-  <span style="color: #8b2252;">"</span>
-<span style="color: #8b2252;">  goto   file                        info</span>
-<span style="color: #8b2252;">         --------------------------------------</span>
-<span style="color: #8b2252;">         _e_macs.org                 _o_rg</span>
-<span style="color: #8b2252;">         _r_eference.org: last note</span>
-<span style="color: #8b2252;">         _w_ork.org</span>
-<span style="color: #8b2252;">      "</span>
-  (<span style="color: #8b2252;">"e"</span> (find-file <span style="color: #8b2252;">"~/.emacs.d/emacs.org"</span>))
-  (<span style="color: #8b2252;">"r"</span> my/last-captured-org-note)
-  (<span style="color: #8b2252;">"w"</span> (find-file <span style="color: #8b2252;">"~/Dropbox/org/work.org"</span>))
-  (<span style="color: #8b2252;">"o"</span> org-info))
+<pre class="src src-emacs-lisp">(bind-key "C-c z" 'hydra-goto/body)
+(defhydra hydra-goto (:color blue :hint nil)
+  "
+  goto   file                        info
+         --------------------------------------
+         _e_macs.org                 _o_rg
+         _r_eference.org: last note
+         _w_ork.org
+      "
+  ("e" (find-file "~/.emacs.d/emacs.org"))
+  ("r" my/last-captured-org-note)
+  ("w" (find-file "~/Dropbox/org/work.org"))
+  ("o" org-info))
 </pre>
 </div>
 </div>
@@ -187,9 +185,9 @@ I've bind that to <code>C-c z r</code> using my general purpose goto <a href="ht
 </div>
 
 
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">Linux</h2>
-<div class="outline-text-2" id="text-2">
+<div id="outline-container-orgheadline6" class="outline-2">
+<h2 id="orgheadline6">Linux</h2>
+<div class="outline-text-2" id="text-orgheadline6">
 <p>
 While the code presented here works only on OS X, it is definitely
 possible to do the same under Linux. If you want to explore how, here
@@ -197,10 +195,8 @@ a couple of links that might help:
 </p>
 
 <ul class="org-ul">
-<li><a href="http://tech.memoryimprintstudio.com/?p=160">Org Capture from External Applications</a>
-</li>
-<li><a href="https://github.com/rexim/org-cliplink">org-cliplink</a>, an alternative
-</li>
+<li><a href="http://tech.memoryimprintstudio.com/?p=160">Org Capture from External Applications</a></li>
+<li><a href="https://github.com/rexim/org-cliplink">org-cliplink</a>, an alternative</li>
 </ul>
 </div>
 </div>
@@ -231,7 +227,7 @@ a couple of links that might help:
         })();
       </script>
       <div class="footer">
-        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.x (<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.x (<a href="http://orgmode.org">Org mode</a> 8.x)</p>
         <p>
           Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:heikki &lt;dot&gt; lehvaslaiho &lt;at&gt; gmail &lt;dot&gt; com">Heikki Lehväslaiho</a>
           &nbsp;&nbsp;-&nbsp;&nbsp;
