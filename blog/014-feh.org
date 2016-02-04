@@ -3,7 +3,7 @@
 #+EMAIL:       heikki.lehvaslaiho@gmail.com
 #+DATE:        2016-02-04 Thu
 #+URI:         /blog/%y/%m/%d/feh
-#+KEYWORDS:    command-line osx
+#+KEYWORDS:    command-line, osx
 #+TAGS:        unix, photography
 #+LANGUAGE:    en
 #+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
