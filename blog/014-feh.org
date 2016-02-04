@@ -7,7 +7,7 @@
 #+TAGS:        unix, photography
 #+LANGUAGE:    en
 #+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
-#+DESCRIPTION: Enhance the feh command line tool for picture management
+#+DESCRIPTION: Enhance the feh command line tool to do picture management
 
 * Summary
 
