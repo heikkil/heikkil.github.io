@@ -21,7 +21,7 @@ entry in elfeed news reader with one key press.
 
 [[https://github.com/skeeto/elfeed][Elfeed]] is a web feed reader that is written in emacs lisp that makes
 it [[http://heikkil.github.io/blog/2015/02/24/custom-elfeed-filter-functions/][easy to modify]] and extend for different work flows. I use it with
-[[ttps://github.com/remyhonig/elfeed-org][elfeed-org]] package to follow dozens of web sites. Every now and
+[[https://github.com/remyhonig/elfeed-org][elfeed-org]] package to follow dozens of web sites. Every now and
 then I do not want to open an entry in the browser but to make a quick
 note of it into my [[http://heikkil.github.io/blog/2015/05/07/notes-in-org-agenda/][org notes]] directly from  elfeed.
 
@@ -58,7 +58,7 @@ URL and the title of the entry and places the string in the clipboard.
 
 The elfeed-show mode link command simply calls that function with the
 current entry. The note command does the same and uses the note org
-capture function defined in [[the first article in this series]] to store
+capture function defined in [[http://heikkil.github.io/blog/2015/05/07/notes-in-org-agenda/][the first article in this series]] to store
 the link.
 
 I use bind-keys from [[https://github.com/jwiegley/use-package][use-package]] to bind keys in the correct key map
