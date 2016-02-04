@@ -1,7 +1,7 @@
 #+TITLE:       feh as image organizer
-#+AUTHOR:      Heikki Lehvaslaiho
+#+AUTHOR:      Heikki Lehväslaiho
 #+EMAIL:       heikki.lehvaslaiho@gmail.com
-#+DATE:        2016-02-24 Thu
+#+DATE:        2016-02-04 Thu
 #+URI:         /blog/%y/%m/%d/feh
 #+KEYWORDS:    command-line osx
 #+TAGS:        unix, photography

@@ -1,5 +1,5 @@
 #+TITLE:       White Lady of the Forest
-#+AUTHOR:      Heikki Lehvaslaiho
+#+AUTHOR:      Heikki Lehväslaiho
 #+EMAIL:       heikki.lehvaslaiho@gmail.com
 #+DATE:        2016-01-14 Mon
 #+URI:         /blog/%y/%m/%d/white-lady
