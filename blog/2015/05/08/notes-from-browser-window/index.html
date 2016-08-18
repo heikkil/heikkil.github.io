@@ -6,22 +6,22 @@
     <meta name="author" content="Heikki Lehväslaiho" />
     <meta name="description" content="Org note of the current browser window URL and title" />
     <meta name="keywords" content="notes, browser, bookmark, org, agenda" />
-    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
-    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+    <link rel="stylesheet" href="http://heikkil.github.io/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="http://heikkil.github.io/media/css/prettify.css" type="text/css">
     <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
 </head>
 
   <body class="container">
     <div>
       <header class="masthead">
-        <h1 class="masthead-title"><a href="/">Heikki @ home</a></h1>
+        <h1 class="masthead-title"><a href="http://heikkil.github.io/">Heikki @ home</a></h1>
         <p>Loose leaves from my tree</p>
         <ul>
-          <li><a href="/blog/">Blog</a></li>
-          <li><a href="/tags/">Tags</a></li>
-          <li><a href="/about/">About</a></li>
-          <li><a href="https://github.com/heikkil">GitHub</a></li>
-          <li><a href="/rss.xml">RSS</a></li>
+          <li><a href="http://heikkil.github.io/blog/">Blog</a></li>
+          <li><a href="http://heikkil.github.io/tags/">Tags</a></li>
+          <li><a href="http://heikkil.github.io/about/">About</a></li>
+          <li><a href="">GitHub</a></li>
+          <li><a href="http://heikkil.github.io/rss.xml">RSS</a></li>
         </ul>
         <form method="get" id="searchform" action="http://www.google.com/search">
           <input type="text" class="field" name="q" id="s" placeholder="Search">
@@ -121,15 +121,15 @@ is enough reason:
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(use-package org-mac-link
-  :ensure t
-  :if (eq system-type 'darwin)
-  :bind ("C-c v" . my/quick-url-note)
-  :config
-  (defun my/quick-url-note ()
-    "Fastest way to capture a web page link"
-    (interactive)
-    (org-capture nil "n")
+<pre class="src src-emacs-lisp">(<span style="color: #a020f0;">use-package</span> <span style="color: #008b8b;">org-mac-link</span>
+  <span style="color: #483d8b;">:ensure</span> t
+  <span style="color: #483d8b;">:if</span> (eq system-type 'darwin)
+  <span style="color: #483d8b;">:bind</span> (<span style="color: #8b2252;">"C-c v"</span> . my/quick-url-note)
+  <span style="color: #483d8b;">:config</span>
+  (<span style="color: #a020f0;">defun</span> <span style="color: #0000ff;">my/quick-url-note</span> ()
+    <span style="color: #8b2252;">"Fastest way to capture a web page link"</span>
+    (<span style="color: #a020f0;">interactive</span>)
+    (org-capture nil <span style="color: #8b2252;">"n"</span>)
     (org-mac-chrome-insert-frontmost-url)
     (org-capture-finalize)))
 </pre>
@@ -148,10 +148,10 @@ function that takes me the end of the latest link.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(defun my/last-captured-org-note ()
-  "Move to the end of penultimate line of the last org capture note."
-  (interactive)
-  (find-file "~/Dropbox/org/reference.org")
+<pre class="src src-emacs-lisp">(<span style="color: #a020f0;">defun</span> <span style="color: #0000ff;">my/last-captured-org-note</span> ()
+  <span style="color: #8b2252;">"Move to the end of penultimate line of the last org capture note."</span>
+  (<span style="color: #a020f0;">interactive</span>)
+  (find-file <span style="color: #8b2252;">"~/Dropbox/org/reference.org"</span>)
   (end-of-buffer)
   (forward-line -2)
   (org-end-of-line))
@@ -164,19 +164,19 @@ I've bind that to <code>C-c z r</code> using my general purpose goto <a href="ht
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(bind-key "C-c z" 'hydra-goto/body)
-(defhydra hydra-goto (:color blue :hint nil)
-  "
-  goto   file                        info
-         --------------------------------------
-         _e_macs.org                 _o_rg
-         _r_eference.org: last note
-         _w_ork.org
-      "
-  ("e" (find-file "~/.emacs.d/emacs.org"))
-  ("r" my/last-captured-org-note)
-  ("w" (find-file "~/Dropbox/org/work.org"))
-  ("o" org-info))
+<pre class="src src-emacs-lisp">(<span style="color: #a020f0;">bind-key</span> <span style="color: #8b2252;">"C-c z"</span> 'hydra-goto/body)
+(<span style="color: #a020f0;">defhydra</span> hydra-goto (<span style="color: #483d8b;">:color</span> blue <span style="color: #483d8b;">:hint</span> nil)
+  <span style="color: #8b2252;">"</span>
+<span style="color: #8b2252;">  goto   file                        info</span>
+<span style="color: #8b2252;">         --------------------------------------</span>
+<span style="color: #8b2252;">         _e_macs.org                 _o_rg</span>
+<span style="color: #8b2252;">         _r_eference.org: last note</span>
+<span style="color: #8b2252;">         _w_ork.org</span>
+<span style="color: #8b2252;">      "</span>
+  (<span style="color: #8b2252;">"e"</span> (find-file <span style="color: #8b2252;">"~/.emacs.d/emacs.org"</span>))
+  (<span style="color: #8b2252;">"r"</span> my/last-captured-org-note)
+  (<span style="color: #8b2252;">"w"</span> (find-file <span style="color: #8b2252;">"~/Dropbox/org/work.org"</span>))
+  (<span style="color: #8b2252;">"o"</span> org-info))
 </pre>
 </div>
 </div>
@@ -205,32 +205,34 @@ a couple of links that might help:
     <div>
       <div class="post-meta">
         <span title="post date" class="post-info">2015-05-08</span>
-        <span title="last modification date" class="post-info">2015-05-09</span>
-        <span title="tags" class="post-info"><a href="/tags/emacs/">emacs</a></span>
+        <span title="last modification date" class="post-info">2016-08-17</span>
+        <span title="tags" class="post-info"><a href="http://heikkil.github.io/tags/emacs/">emacs</a></span>
         <span title="author" class="post-info">Heikki Lehväslaiho</span>
       </div>
       <section>
         <h1>Comments</h1>
+        <div class="ds-thread"></div>
+        <script type="text/javascript">
+          var duoshuoQuery = {short_name:'heikki-home'};
+          (function() {
+          var ds = document.createElement('script');
+          ds.type = 'text/javascript';ds.async = true;
+          ds.src = 'http://static.duoshuo.com/embed.js';
+          ds.charset = 'UTF-8';
+          (document.getElementsByTagName('head')[0]
+          || document.getElementsByTagName('body')[0]).appendChild(ds);
+          })();
+        </script>
       </section>
       <script src="http://code.jquery.com/jquery-latest.min.js"></script>
       <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js"></script>
-      <script src="/media/js/main.js"></script>
-      <script type="text/javascript">
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-59820721-1']);
-        _gaq.push(['_trackPageview']);
-        (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-      </script>
+      <script src="http://heikkil.github.io/media/js/main.js"></script>
       <div class="footer">
-        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.x (<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.x(<a href="http://orgmode.org">Org mode</a> 8.x)</p>
         <p>
           Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:heikki &lt;dot&gt; lehvaslaiho &lt;at&gt; gmail &lt;dot&gt; com">Heikki Lehväslaiho</a>
           &nbsp;&nbsp;-&nbsp;&nbsp;
-          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          Powered by <a href="https://github.com/tumashu/org-webpage" target="_blank">org-webpage</a>
           <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
         </p>
       </div>

@@ -6,22 +6,22 @@
     <meta name="author" content="Heikki Lehväslaiho" />
     <meta name="description" content="How to create an org note of an elfeed entry" />
     <meta name="keywords" content="notes, elfeed, bookmark" />
-    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
-    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+    <link rel="stylesheet" href="http://heikkil.github.io/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="http://heikkil.github.io/media/css/prettify.css" type="text/css">
     <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
 </head>
 
   <body class="container">
     <div>
       <header class="masthead">
-        <h1 class="masthead-title"><a href="/">Heikki @ home</a></h1>
+        <h1 class="masthead-title"><a href="http://heikkil.github.io/">Heikki @ home</a></h1>
         <p>Loose leaves from my tree</p>
         <ul>
-          <li><a href="/blog/">Blog</a></li>
-          <li><a href="/tags/">Tags</a></li>
-          <li><a href="/about/">About</a></li>
-          <li><a href="https://github.com/heikkil">GitHub</a></li>
-          <li><a href="/rss.xml">RSS</a></li>
+          <li><a href="http://heikkil.github.io/blog/">Blog</a></li>
+          <li><a href="http://heikkil.github.io/tags/">Tags</a></li>
+          <li><a href="http://heikkil.github.io/about/">About</a></li>
+          <li><a href="">GitHub</a></li>
+          <li><a href="http://heikkil.github.io/rss.xml">RSS</a></li>
         </ul>
         <form method="get" id="searchform" action="http://www.google.com/search">
           <input type="text" class="field" name="q" id="s" placeholder="Search">
@@ -83,16 +83,16 @@ URL and the title of the entry and places the string in the clipboard.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(defun elfeed-link-title (entry)
-  "Copy the entry title and URL as org link to the clipboard."
-  (interactive)
-  (let* ((link (elfeed-entry-link entry))
+<pre class="src src-emacs-lisp">(<span style="color: #a020f0;">defun</span> <span style="color: #0000ff;">elfeed-link-title</span> (entry)
+  <span style="color: #8b2252;">"Copy the entry title and URL as org link to the clipboard."</span>
+  (<span style="color: #a020f0;">interactive</span>)
+  (<span style="color: #a020f0;">let*</span> ((link (elfeed-entry-link entry))
          (title (elfeed-entry-title entry))
-         (titlelink (concat "[[" link "][" title "]]")))
-    (when titlelink
+         (titlelink (concat <span style="color: #8b2252;">"[["</span> link <span style="color: #8b2252;">"]["</span> title <span style="color: #8b2252;">"]]"</span>)))
+    (<span style="color: #a020f0;">when</span> titlelink
       (kill-new titlelink)
       (x-set-selection 'PRIMARY titlelink)
-      (message "Yanked: %s" titlelink))))
+      (message <span style="color: #8b2252;">"Yanked: %s"</span> titlelink))))
 </pre>
 </div>
 </div>
@@ -115,22 +115,22 @@ to these functions.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(defun elfeed-show-link-title ()
-  "Copy the current entry title and URL as org link to the clipboard."
-  (interactive)
+<pre class="src src-emacs-lisp">(<span style="color: #a020f0;">defun</span> <span style="color: #0000ff;">elfeed-show-link-title</span> ()
+  <span style="color: #8b2252;">"Copy the current entry title and URL as org link to the clipboard."</span>
+  (<span style="color: #a020f0;">interactive</span>)
   (elfeed-link-title elfeed-show-entry))
 
-(defun elfeed-show-quick-url-note ()
-  "Fastest way to capture entry link to org agenda from elfeed show mode"
-  (interactive)
+(<span style="color: #a020f0;">defun</span> <span style="color: #0000ff;">elfeed-show-quick-url-note</span> ()
+  <span style="color: #8b2252;">"Fastest way to capture entry link to org agenda from elfeed show mode"</span>
+  (<span style="color: #a020f0;">interactive</span>)
   (elfeed-link-title elfeed-show-entry)
-  (org-capture nil "n")
+  (org-capture nil <span style="color: #8b2252;">"n"</span>)
   (yank)
   (org-capture-finalize))
 
-(bind-keys :map elfeed-show-mode-map
-           ("l" . elfeed-show-link-title)
-           ("v" . elfeed-show-quick-url-note)))
+(<span style="color: #a020f0;">bind-keys</span> <span style="color: #483d8b;">:map</span> elfeed-show-mode-map
+           (<span style="color: #8b2252;">"l"</span> . elfeed-show-link-title)
+           (<span style="color: #8b2252;">"v"</span> . elfeed-show-quick-url-note)))
 </pre>
 </div>
 </div>
@@ -149,32 +149,32 @@ as read and the focus in moved to the next line.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">  (defun elfeed-search-link-title ()
-    "Copy the current entry title and URL as org link to the clipboard."
-    (interactive)
-    (let ((entries (elfeed-search-selected)))
-      (cl-loop for entry in entries
+<pre class="src src-emacs-lisp">  (<span style="color: #a020f0;">defun</span> <span style="color: #0000ff;">elfeed-search-link-title</span> ()
+    <span style="color: #8b2252;">"Copy the current entry title and URL as org link to the clipboard."</span>
+    (<span style="color: #a020f0;">interactive</span>)
+    (<span style="color: #a020f0;">let</span> ((entries (elfeed-search-selected)))
+      (<span style="color: #a020f0;">cl-loop</span> for entry in entries
                when (elfeed-entry-link entry)
                do (elfeed-link-title entry))))
 
-  (defun elfeed-search-quick-url-note ()
-    "In search mode, capture the title and link for the selected
-entry or entries in org aganda."
-    (interactive)
-    (let ((entries (elfeed-search-selected)))
-      (cl-loop for entry in entries
+  (<span style="color: #a020f0;">defun</span> <span style="color: #0000ff;">elfeed-search-quick-url-note</span> ()
+    <span style="color: #8b2252;">"In search mode, capture the title and link for the selected</span>
+<span style="color: #8b2252;">entry or entries in org aganda."</span>
+    (<span style="color: #a020f0;">interactive</span>)
+    (<span style="color: #a020f0;">let</span> ((entries (elfeed-search-selected)))
+      (<span style="color: #a020f0;">cl-loop</span> for entry in entries
                do (elfeed-untag entry 'unread)
                when (elfeed-entry-link entry)
                do (elfeed-link-title entry)
-               do (org-capture nil "n")
+               do (org-capture nil <span style="color: #8b2252;">"n"</span>)
                do (yank)
                do (org-capture-finalize)
                (mapc #'elfeed-search-update-entry entries))
-      (unless (use-region-p) (forward-line))))
+      (<span style="color: #a020f0;">unless</span> (use-region-p) (forward-line))))
 
-  (bind-keys :map elfeed-search-mode-map
-             ("l" . elfeed-search-link-title)
-             ("v" . elfeed-search-quick-url-note))
+  (<span style="color: #a020f0;">bind-keys</span> <span style="color: #483d8b;">:map</span> elfeed-search-mode-map
+             (<span style="color: #8b2252;">"l"</span> . elfeed-search-link-title)
+             (<span style="color: #8b2252;">"v"</span> . elfeed-search-quick-url-note))
 </pre>
 </div>
 </div>
@@ -196,32 +196,34 @@ For the above code snippets to be fully functional they need to be within
     <div>
       <div class="post-meta">
         <span title="post date" class="post-info">2015-05-09</span>
-        <span title="last modification date" class="post-info">2016-02-04</span>
-        <span title="tags" class="post-info"><a href="/tags/emacs/">emacs</a></span>
+        <span title="last modification date" class="post-info">2016-08-17</span>
+        <span title="tags" class="post-info"><a href="http://heikkil.github.io/tags/emacs/">emacs</a></span>
         <span title="author" class="post-info">Heikki Lehväslaiho</span>
       </div>
       <section>
         <h1>Comments</h1>
+        <div class="ds-thread"></div>
+        <script type="text/javascript">
+          var duoshuoQuery = {short_name:'heikki-home'};
+          (function() {
+          var ds = document.createElement('script');
+          ds.type = 'text/javascript';ds.async = true;
+          ds.src = 'http://static.duoshuo.com/embed.js';
+          ds.charset = 'UTF-8';
+          (document.getElementsByTagName('head')[0]
+          || document.getElementsByTagName('body')[0]).appendChild(ds);
+          })();
+        </script>
       </section>
       <script src="http://code.jquery.com/jquery-latest.min.js"></script>
       <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js"></script>
-      <script src="/media/js/main.js"></script>
-      <script type="text/javascript">
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-59820721-1']);
-        _gaq.push(['_trackPageview']);
-        (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-      </script>
+      <script src="http://heikkil.github.io/media/js/main.js"></script>
       <div class="footer">
-        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.x (<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.x(<a href="http://orgmode.org">Org mode</a> 8.x)</p>
         <p>
           Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:heikki &lt;dot&gt; lehvaslaiho &lt;at&gt; gmail &lt;dot&gt; com">Heikki Lehväslaiho</a>
           &nbsp;&nbsp;-&nbsp;&nbsp;
-          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          Powered by <a href="https://github.com/tumashu/org-webpage" target="_blank">org-webpage</a>
           <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
         </p>
       </div>

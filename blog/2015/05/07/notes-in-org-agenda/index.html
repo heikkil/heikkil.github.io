@@ -6,22 +6,22 @@
     <meta name="author" content="Heikki Lehväslaiho" />
     <meta name="description" content="Org agenda date tree file is the ultimate note format" />
     <meta name="keywords" content="notes, bookmarks, emacs, org, agenda" />
-    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
-    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+    <link rel="stylesheet" href="http://heikkil.github.io/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="http://heikkil.github.io/media/css/prettify.css" type="text/css">
     <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
 </head>
 
   <body class="container">
     <div>
       <header class="masthead">
-        <h1 class="masthead-title"><a href="/">Heikki @ home</a></h1>
+        <h1 class="masthead-title"><a href="http://heikkil.github.io/">Heikki @ home</a></h1>
         <p>Loose leaves from my tree</p>
         <ul>
-          <li><a href="/blog/">Blog</a></li>
-          <li><a href="/tags/">Tags</a></li>
-          <li><a href="/about/">About</a></li>
-          <li><a href="https://github.com/heikkil">GitHub</a></li>
-          <li><a href="/rss.xml">RSS</a></li>
+          <li><a href="http://heikkil.github.io/blog/">Blog</a></li>
+          <li><a href="http://heikkil.github.io/tags/">Tags</a></li>
+          <li><a href="http://heikkil.github.io/about/">About</a></li>
+          <li><a href="">GitHub</a></li>
+          <li><a href="http://heikkil.github.io/rss.xml">RSS</a></li>
         </ul>
         <form method="get" id="searchform" action="http://www.google.com/search">
           <input type="text" class="field" name="q" id="s" placeholder="Search">
@@ -70,8 +70,8 @@ to use <code>C-c a</code> for org-agenda.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(global-set-key "\C-ca" 'org-agenda)
-(require 'org-agenda)
+<pre class="src src-emacs-lisp">(global-set-key <span style="color: #8b2252;">"\C-ca"</span> 'org-agenda)
+(<span style="color: #a020f0;">require</span> '<span style="color: #008b8b;">org-agenda</span>)
 </pre>
 </div>
 
@@ -83,7 +83,7 @@ in Dropbox for extra protection.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(setq org-directory "~/Dropbox/org")
+<pre class="src src-emacs-lisp">(<span style="color: #a020f0;">setq</span> org-directory <span style="color: #8b2252;">"~/Dropbox/org"</span>)
 </pre>
 </div>
 
@@ -108,11 +108,11 @@ binding for this note is <code>C-c c n</code>.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(global-set-key "\C-cc" 'org-capture)
-(setq org-capture-templates
-      (quote (
-              ("n" "note" entry (file+datetree "~/Dropbox/org/reference.org")
-               "* %?\nEntered on %U\n  %i"))))
+<pre class="src src-emacs-lisp">(global-set-key <span style="color: #8b2252;">"\C-cc"</span> 'org-capture)
+(<span style="color: #a020f0;">setq</span> org-capture-templates
+      (<span style="color: #a020f0;">quote</span> (
+              (<span style="color: #8b2252;">"n"</span> <span style="color: #8b2252;">"note"</span> entry (file+datetree <span style="color: #8b2252;">"~/Dropbox/org/reference.org"</span>)
+               <span style="color: #8b2252;">"* %?\nEntered on %U\n  %i"</span>))))
 </pre>
 </div>
 
@@ -141,10 +141,10 @@ defined in a list of string and key pairs:
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(setq org-tag-alist (quote (("BIO"    . ?b)
-                           ("COMP"    . ?c)
-                           ("EMACS"   . ?e)
-                           ("FOOD"    . ?f))))
+<pre class="src src-emacs-lisp">(<span style="color: #a020f0;">setq</span> org-tag-alist (<span style="color: #a020f0;">quote</span> ((<span style="color: #8b2252;">"BIO"</span>    . ?b)
+                           (<span style="color: #8b2252;">"COMP"</span>    . ?c)
+                           (<span style="color: #8b2252;">"EMACS"</span>   . ?e)
+                           (<span style="color: #8b2252;">"FOOD"</span>    . ?f))))
 </pre>
 </div>
 
@@ -183,32 +183,34 @@ different sources.
     <div>
       <div class="post-meta">
         <span title="post date" class="post-info">2015-05-07</span>
-        <span title="last modification date" class="post-info">2016-02-04</span>
-        <span title="tags" class="post-info"><a href="/tags/emacs/">emacs</a></span>
+        <span title="last modification date" class="post-info">2016-08-17</span>
+        <span title="tags" class="post-info"><a href="http://heikkil.github.io/tags/emacs/">emacs</a></span>
         <span title="author" class="post-info">Heikki Lehväslaiho</span>
       </div>
       <section>
         <h1>Comments</h1>
+        <div class="ds-thread"></div>
+        <script type="text/javascript">
+          var duoshuoQuery = {short_name:'heikki-home'};
+          (function() {
+          var ds = document.createElement('script');
+          ds.type = 'text/javascript';ds.async = true;
+          ds.src = 'http://static.duoshuo.com/embed.js';
+          ds.charset = 'UTF-8';
+          (document.getElementsByTagName('head')[0]
+          || document.getElementsByTagName('body')[0]).appendChild(ds);
+          })();
+        </script>
       </section>
       <script src="http://code.jquery.com/jquery-latest.min.js"></script>
       <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js"></script>
-      <script src="/media/js/main.js"></script>
-      <script type="text/javascript">
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-59820721-1']);
-        _gaq.push(['_trackPageview']);
-        (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-      </script>
+      <script src="http://heikkil.github.io/media/js/main.js"></script>
       <div class="footer">
-        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.x (<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.x(<a href="http://orgmode.org">Org mode</a> 8.x)</p>
         <p>
           Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:heikki &lt;dot&gt; lehvaslaiho &lt;at&gt; gmail &lt;dot&gt; com">Heikki Lehväslaiho</a>
           &nbsp;&nbsp;-&nbsp;&nbsp;
-          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          Powered by <a href="https://github.com/tumashu/org-webpage" target="_blank">org-webpage</a>
           <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
         </p>
       </div>

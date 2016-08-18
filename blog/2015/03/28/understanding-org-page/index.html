@@ -6,22 +6,22 @@
     <meta name="author" content="Heikki Lehvaslaiho" />
     <meta name="description" content="How I understand and use org-page better after using it for a month" />
     <meta name="keywords" content="org-page, tutorial, how-to, introduction, documentation" />
-    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
-    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+    <link rel="stylesheet" href="http://heikkil.github.io/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="http://heikkil.github.io/media/css/prettify.css" type="text/css">
     <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
 </head>
 
   <body class="container">
     <div>
       <header class="masthead">
-        <h1 class="masthead-title"><a href="/">Heikki @ home</a></h1>
+        <h1 class="masthead-title"><a href="http://heikkil.github.io/">Heikki @ home</a></h1>
         <p>Loose leaves from my tree</p>
         <ul>
-          <li><a href="/blog/">Blog</a></li>
-          <li><a href="/tags/">Tags</a></li>
-          <li><a href="/about/">About</a></li>
-          <li><a href="https://github.com/heikkil">GitHub</a></li>
-          <li><a href="/rss.xml">RSS</a></li>
+          <li><a href="http://heikkil.github.io/blog/">Blog</a></li>
+          <li><a href="http://heikkil.github.io/tags/">Tags</a></li>
+          <li><a href="http://heikkil.github.io/about/">About</a></li>
+          <li><a href="">GitHub</a></li>
+          <li><a href="http://heikkil.github.io/rss.xml">RSS</a></li>
         </ul>
         <form method="get" id="searchform" action="http://www.google.com/search">
           <input type="text" class="field" name="q" id="s" placeholder="Search">
@@ -80,7 +80,7 @@ org-page are has three local components, and at least one remote. These are:
 
 
 <div class="figure">
-<p><img src="/assets/blog/2015/03/28/understanding-org-page/007-org-page.png" alt="007-org-page.png" />
+<p><img src="http://heikkil.github.io/assets/blog/2015/03/28/understanding-org-page/007-org-page.png" alt="007-org-page.png" />
 </p>
 </div>
 
@@ -158,7 +158,7 @@ in the source branch:
 
 <div class="org-src-container">
 
-<pre class="src src-sh">cd (op/repository-directory)
+<pre class="src src-sh"><span style="color: #483d8b;">cd</span> (op/repository-directory)
 mkdir themes
 cp -r .../org-page/themes/mdo themes/sans
 </pre>
@@ -222,24 +222,24 @@ The <code>op/new-repository</code> creates files based on your setup. Here is mi
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(require 'org-page)
-(setq op/repository-directory "~/src/org-page/heikkil.github.io")
-(setq op/site-domain "http://heikkil.github.io")
-(setq op/personal-avatar "https://avatars0.githubusercontent.com/u/75674?v=3&amp;s=460")
-;; for commenting; disabled for now
-;;(setq op/personal-disqus-shortname "your_disqus_shortname")
+<pre class="src src-emacs-lisp">(<span style="color: #a020f0;">require</span> '<span style="color: #008b8b;">org-page</span>)
+(<span style="color: #a020f0;">setq</span> op/repository-directory <span style="color: #8b2252;">"~/src/org-page/heikkil.github.io"</span>)
+(<span style="color: #a020f0;">setq</span> op/site-domain <span style="color: #8b2252;">"http://heikkil.github.io"</span>)
+(<span style="color: #a020f0;">setq</span> op/personal-avatar <span style="color: #8b2252;">"https://avatars0.githubusercontent.com/u/75674?v=3&amp;s=460"</span>)
+<span style="color: #b22222;">;; </span><span style="color: #b22222;">for commenting; disabled for now</span>
+<span style="color: #b22222;">;;</span><span style="color: #b22222;">(setq op/personal-disqus-shortname "your_disqus_shortname")</span>
 
-;; analytics set up at ~/.emacs.secrets file
-;;(setq op/personal-google-analytics-id "UA-NNNNNNNN-N")
+<span style="color: #b22222;">;; </span><span style="color: #b22222;">analytics set up at ~/.emacs.secrets file</span>
+<span style="color: #b22222;">;;</span><span style="color: #b22222;">(setq op/personal-google-analytics-id "UA-NNNNNNNN-N")</span>
 
-(setq op/personal-github-link "https://github.com/heikkil")
+(<span style="color: #a020f0;">setq</span> op/personal-github-link <span style="color: #8b2252;">"https://github.com/heikkil"</span>)
 
-(setq op/site-main-title "Heikki @ home")
-(setq op/site-sub-title "Loose leaves from my tree")
+(<span style="color: #a020f0;">setq</span> op/site-main-title <span style="color: #8b2252;">"Heikki @ home"</span>)
+(<span style="color: #a020f0;">setq</span> op/site-sub-title <span style="color: #8b2252;">"Loose leaves from my tree"</span>)
 
-;; set up my own theme since a sans option does not exist
-(setq op/theme-root-directory "~/src/org-page/heikkil.github.io/themes")
-(setq op/theme 'sans)  ; mdo is the default
+<span style="color: #b22222;">;; </span><span style="color: #b22222;">set up my own theme since a sans option does not exist</span>
+(<span style="color: #a020f0;">setq</span> op/theme-root-directory <span style="color: #8b2252;">"~/src/org-page/heikkil.github.io/themes"</span>)
+(<span style="color: #a020f0;">setq</span> op/theme 'sans)  <span style="color: #b22222;">; </span><span style="color: #b22222;">mdo is the default</span>
 </pre>
 </div>
 
@@ -276,23 +276,23 @@ needed. Finally, <code>C-c p t</code> lets me test the site in a local directory
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(global-set-key
-     (kbd "C-c p")
-     (defhydra hydra-blog (:color blue :hint nil)
-       "
-    blog  _n_: new post                        _l_: publish last commit
-          _r_: reset &amp; publish all             _p_: publish interactively
-          _t_: reset &amp; publish to /tmp/blog    _e_: new-repository
-          "
-       ("n" op/new-post)
-       ("r" (progn
-              (setq op/item-cache nil)
+     (kbd <span style="color: #8b2252;">"C-c p"</span>)
+     (<span style="color: #a020f0;">defhydra</span> hydra-blog (<span style="color: #483d8b;">:color</span> blue <span style="color: #483d8b;">:hint</span> nil)
+       <span style="color: #8b2252;">"</span>
+<span style="color: #8b2252;">    blog  _n_: new post                        _l_: publish last commit</span>
+<span style="color: #8b2252;">          _r_: reset &amp; publish all             _p_: publish interactively</span>
+<span style="color: #8b2252;">          _t_: reset &amp; publish to /tmp/blog    _e_: new-repository</span>
+<span style="color: #8b2252;">          "</span>
+       (<span style="color: #8b2252;">"n"</span> op/new-post)
+       (<span style="color: #8b2252;">"r"</span> (<span style="color: #a020f0;">progn</span>
+              (<span style="color: #a020f0;">setq</span> op/item-cache nil)
               (op/do-publication t nil nil t t)))
-       ("t" (progn
-              (setq op/item-cache nil)
-              (op/do-publication t "/tmp/blog" nil t nil)))
-       ("l" (op/do-publication nil "HEAD~1" nil t t))
-       ("p" op/do-publication)
-       ("e" op/new-repository)))
+       (<span style="color: #8b2252;">"t"</span> (<span style="color: #a020f0;">progn</span>
+              (<span style="color: #a020f0;">setq</span> op/item-cache nil)
+              (op/do-publication t <span style="color: #8b2252;">"/tmp/blog"</span> nil t nil)))
+       (<span style="color: #8b2252;">"l"</span> (op/do-publication nil <span style="color: #8b2252;">"HEAD~1"</span> nil t t))
+       (<span style="color: #8b2252;">"p"</span> op/do-publication)
+       (<span style="color: #8b2252;">"e"</span> op/new-repository)))
 </pre>
 </div>
 </div>
@@ -303,32 +303,34 @@ needed. Finally, <code>C-c p t</code> lets me test the site in a local directory
     <div>
       <div class="post-meta">
         <span title="post date" class="post-info">2015-03-28</span>
-        <span title="last modification date" class="post-info">2015-04-02</span>
-        <span title="tags" class="post-info"><a href="/tags/emacs/">emacs</a></span>
+        <span title="last modification date" class="post-info">2016-08-17</span>
+        <span title="tags" class="post-info"><a href="http://heikkil.github.io/tags/emacs/">emacs</a></span>
         <span title="author" class="post-info">Heikki Lehvaslaiho</span>
       </div>
       <section>
         <h1>Comments</h1>
+        <div class="ds-thread"></div>
+        <script type="text/javascript">
+          var duoshuoQuery = {short_name:'heikki-home'};
+          (function() {
+          var ds = document.createElement('script');
+          ds.type = 'text/javascript';ds.async = true;
+          ds.src = 'http://static.duoshuo.com/embed.js';
+          ds.charset = 'UTF-8';
+          (document.getElementsByTagName('head')[0]
+          || document.getElementsByTagName('body')[0]).appendChild(ds);
+          })();
+        </script>
       </section>
       <script src="http://code.jquery.com/jquery-latest.min.js"></script>
       <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js"></script>
-      <script src="/media/js/main.js"></script>
-      <script type="text/javascript">
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-59820721-1']);
-        _gaq.push(['_trackPageview']);
-        (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-      </script>
+      <script src="http://heikkil.github.io/media/js/main.js"></script>
       <div class="footer">
-        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.x (<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.x(<a href="http://orgmode.org">Org mode</a> 8.x)</p>
         <p>
           Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:heikki &lt;dot&gt; lehvaslaiho &lt;at&gt; gmail &lt;dot&gt; com">Heikki Lehvaslaiho</a>
           &nbsp;&nbsp;-&nbsp;&nbsp;
-          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          Powered by <a href="https://github.com/tumashu/org-webpage" target="_blank">org-webpage</a>
           <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
         </p>
       </div>
