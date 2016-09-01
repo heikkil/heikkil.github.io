@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>OS X system notifications from terminal tasks with fish - Heikki @ home</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Heikki Lehvaslaiho" />
+    <meta name="description" content="system notications in OS X with fish" />
+    <meta name="keywords" content="fish, OSX, iTerm2" />
+    <link rel="stylesheet" href="http://heikkil.github.io/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="http://heikkil.github.io/media/css/prettify.css" type="text/css">
+    <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
+</head>
+
+  <body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="http://heikkil.github.io/">Heikki @ home</a></h1>
+        <p>Loose leaves from my tree</p>
+        <ul>
+          <li><a href="http://heikkil.github.io/blog/">Blog</a></li>
+          <li><a href="http://heikkil.github.io/tags/">Tags</a></li>
+          <li><a href="http://heikkil.github.io/about/">About</a></li>
+          <li><a href="">GitHub</a></li>
+          <li><a href="http://heikkil.github.io/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="http://www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="q" value="site:heikkil.github.io">
+        </form>
+        <img class="avatar" src="https://avatars0.githubusercontent.com/u/75674?v=3&amp;s=460" />
+      </header>
+    </div>
+
+<div>
+<div class="post">
+<h1>OS X system notifications from terminal tasks with fish</h1>
+<p>
+<a href="http://frantic.im/notify-on-completion">This blog entry</a> shows how to get OS X system notifications from
+terminal tasks. Its really great idea is to trigger notifications only when
+terminal is no longer the frontmost application.
+</p>
+
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1">The fish shell</h2>
+<div class="outline-text-2" id="text-orgheadline1">
+<p>
+The detailed instructions give the commands for zsh which is like bash
+on steroids. I, however, use <a href="https://fishshell.com">fish</a> that does most things differently
+(and better). I record here how I modified the scripts for fish.
+</p>
+
+<blockquote>
+<p>
+The crucial thing with fish shell in OS X is not to declare it as your
+login shell. It is not POSIX compliant and things will not work as
+expected.
+</p>
+
+<p>
+The sane way to do it is to install fish from homebrew (<code>brew install
+fish</code>) and not make it the default shell, but set it in the terminal
+preferences. In <a href="https://www.iterm2.com/">iTerm2</a>, go to <code>Preferences/Profiles/General</code> and set the
+command for the default profile to <code>/usr/local/bin/fish</code>.
+</p>
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-orgheadline2" class="outline-2">
+<h2 id="orgheadline2">Installation of scripts</h2>
+<div class="outline-text-2" id="text-orgheadline2">
+<p>
+The osascript determines if the system notification is needed and does
+the call. Put the code as it is on the web page into a file named
+<code>notifyme</code>, set execute permissions (e.g. <code>chmod 755 notifyme</code>) and place
+somewhere which is on your path (e.g. <code>~/bin</code> or <code>/usr/local/bin</code>).
+</p>
+
+<p>
+The fish code needs to be placed in your main fish configuration file.
+</p>
+
+<blockquote>
+<p>
+The default fish configuration file is <code>~/.config/fish/config.fish</code>, but
+I use fish with a framework called <a href="https://github.com/oh-my-fish/oh-my-fish">oh-my-fish</a> that stores its
+configuration in <code>~/.config/omf/init.fish</code>.
+</p>
+</blockquote>
+
+<p>
+Here is the function <code>f_notifyme</code> rewritten using fish syntax that
+collects the information from shell and calls the osascript:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">f_notifyme</span> -d <span style="color: #8b2252;">"OS X system nofication"</span>
+  <span style="color: #483d8b;">set</span> LAST_EXIT_CODE $<span style="color: #a0522d;">status</span>
+  <span style="color: #483d8b;">set</span> CMD (<span style="color: #483d8b;">history</span>|head -1)
+  <span style="color: #b22222;"># </span><span style="color: #b22222;">No point in waiting for the command to complete</span>
+  notifyme $<span style="color: #a0522d;">CMD</span> $<span style="color: #a0522d;">LAST_EXIT_CODE</span>
+end
+</pre>
+</div>
+
+<p>
+The function f_notifyme needs to called every time a command finishes.
+The means that the shell prompt needs to be modified. In fish, this is
+done using functions <code>fish_prompt</code> and <code>fish_right_prompt</code>. It depends on
+your setup which one you want to modify. This example assumes that you
+are not using the right prompt for anything else:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">fish_right_prompt</span> -d <span style="color: #8b2252;">"create system nofication at prompt"</span>
+        f_notifyme
+end
+</pre>
+</div>
+
+<p>
+Save the file and start a new fish shell to start receiving
+notifications.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline3" class="outline-2">
+<h2 id="orgheadline3">Debugging</h2>
+<div class="outline-text-2" id="text-orgheadline3">
+<p>
+If you want to tweek the setup further, you'll find debugging easier
+if you temporarily change reverse the logic in the <code>notifyme</code> osascript
+by setting line 6 to =if frontApp is "iTerm2"=. You can then call it
+from the command prompt and see the notification to come up (e.g
+<code>f_notifyme</code> or <code>notifyme test status</code>).
+</p>
+</div>
+</div>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2016-09-01</span>
+        <span title="last modification date" class="post-info">2016-09-01</span>
+        <span title="tags" class="post-info"><a href="http://heikkil.github.io/tags/osx/">OSX</a> <a href="http://heikkil.github.io/tags/fish/">fish</a></span>
+        <span title="author" class="post-info">Heikki Lehvaslaiho</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+        <div class="ds-thread"></div>
+        <script type="text/javascript">
+          var duoshuoQuery = {short_name:'heikki-home'};
+          (function() {
+          var ds = document.createElement('script');
+          ds.type = 'text/javascript';ds.async = true;
+          ds.src = 'http://static.duoshuo.com/embed.js';
+          ds.charset = 'UTF-8';
+          (document.getElementsByTagName('head')[0]
+          || document.getElementsByTagName('body')[0]).appendChild(ds);
+          })();
+        </script>
+      </section>
+      <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js"></script>
+      <script src="http://heikkil.github.io/media/js/main.js"></script>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.x(<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:heikki &lt;dot&gt; lehvaslaiho &lt;at&gt; gmail &lt;dot&gt; com">Heikki Lehvaslaiho</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/tumashu/org-webpage" target="_blank">org-webpage</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+  </body>
+</html>
