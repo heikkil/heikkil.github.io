@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Fix text in emacs after wrong keyboard layout - Heikki @ home</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Heikki Lehvaslaiho" />
+    <meta name="description" content="Immediate character translation in emacs" />
+    <meta name="keywords" content="character translation emacs" />
+    <link rel="stylesheet" href="http://heikkil.github.io/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="http://heikkil.github.io/media/css/prettify.css" type="text/css">
+    <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
+</head>
+
+  <body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="http://heikkil.github.io/">Heikki @ home</a></h1>
+        <p>Loose leaves from my tree</p>
+        <ul>
+          <li><a href="http://heikkil.github.io/blog/">Blog</a></li>
+          <li><a href="http://heikkil.github.io/tags/">Tags</a></li>
+          <li><a href="http://heikkil.github.io/about/">About</a></li>
+          <li><a href="">GitHub</a></li>
+          <li><a href="http://heikkil.github.io/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="http://www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="q" value="site:heikkil.github.io">
+        </form>
+        <img class="avatar" src="https://avatars0.githubusercontent.com/u/75674?v=3&amp;s=460" />
+      </header>
+    </div>
+
+<div>
+<div class="post">
+<h1>Fix text in emacs after wrong keyboard layout</h1>
+<p>
+My default keyboard layout is US, but I also write in Finnish language
+that has its own layout that differs from the US one for a few special
+letters. Quite often, I have started writing in Finnish with the US
+keyboard layout, and then had to laboriously replace the wrong
+letters manually.
+</p>
+
+<p>
+UNIX command line has a tool <code>tr</code> (translate characters) that makes it
+really easy to do what I need:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">tr <span style="color: #8b2252;">";'[:\"{"</span> <span style="color: #8b2252;">"&#246;&#228;&#229;&#214;&#196;&#197;"</span>
+</pre>
+</div>
+
+<p>
+Emacs should be able to the same. It has a standard function
+<a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Substitution.html">subst-char-in-region</a> that seemed to do exactly what I needed.
+Unfortunately, it turned out needing both old and new character to
+have the same byte-length. A badly outdated requirement nowadays when
+Unicode should be expected everywhere.
+</p>
+
+<p>
+A <a href="https://www.emacswiki.org/emacs/ElispCookbook#toc33">standard</a> regexp search and replace for all character pairs did the
+trick. Combining that with code that <a href="http://ergoemacs.org/emacs/elisp_idioms.html">automatically applies changes to
+the current paragraph</a> proved to be really powerful combination. I
+bound the translation function to a key combination and found using it
+much easier than switching between layouts. I now regularly write short
+Finnish notes using the US layout and in the end just press my key
+combination to fix the characters.
+</p>
+
+<p>
+After I got it working, I refactored the code into two functions: the
+general purpose function <code>translate-characters</code> and the interactive
+function <code>my/us2fi</code> that solves my translation problem. It is now easy
+to add more functions that translate between any other two layouts.
+</p>
+
+<p>
+The function <code>translate-characters</code> takes four obligatory arguments: A
+string of from characters, a corresponding string of to characters,
+and start and end points of the region to apply the translation to.
+The interactive function takes care of determining the region of
+interest and passes on the exact coordinates together with the two
+strings.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #a020f0;">defun</span> <span style="color: #0000ff;">translate-characters</span> (from-string to-string begin end)
+  <span style="color: #8b2252;">"Translate characters in the current buffer.</span>
+
+<span style="color: #8b2252;">FROM-STRING and TO-STRING are equal length strings that contain</span>
+<span style="color: #8b2252;">translatable characters in order like in the tr command line tool.</span>
+
+<span style="color: #8b2252;">Works on the given region of the current buffer between locations</span>
+<span style="color: #8b2252;">BEGIN and END."</span>
+
+  (<span style="color: #a020f0;">let</span> ((from-regexp (concat <span style="color: #8b2252;">"["</span> (regexp-quote from-string) <span style="color: #8b2252;">"]"</span>))
+        (tr-alist (pairlis (split-string from-string <span style="color: #8b2252;">""</span> t)
+                           (split-string to-string <span style="color: #8b2252;">""</span> t))))
+    (<span style="color: #a020f0;">save-excursion</span>
+      (goto-char begin)
+      (<span style="color: #a020f0;">while</span> (<span style="color: #a020f0;">and</span>
+              (re-search-forward from-regexp nil t)
+              (&lt;= (point) end))
+        (goto-char (match-beginning 0))
+        (<span style="color: #a020f0;">if</span> (match-string 0)
+            (replace-match (cdr (assoc (match-string 0) tr-alist)) t))
+        (goto-char (match-end 0))))))
+
+(<span style="color: #a020f0;">defun</span> <span style="color: #0000ff;">my/us2fi</span> (<span style="color: #228b22;">&amp;optional</span> begin end)
+  <span style="color: #8b2252;">"Convert characters written with US keyboard layout to matching Finnish ones.</span>
+
+<span style="color: #8b2252;">Converts only characters that translate to Scandinavian letters</span>
+<span style="color: #8b2252;">&#229;&#228;&#246;&#197;&#196;&#214;. All other characters are ignored.</span>
+
+<span style="color: #8b2252;">Works on the current paragraph or text selection (between BEGIN</span>
+<span style="color: #8b2252;">and END.</span>
+
+<span style="color: #8b2252;">Calls `</span><span style="color: #008b8b;">translate-characters</span><span style="color: #8b2252;">' to do the work.</span>
+
+<span style="color: #8b2252;">In Finnish text, the character &#228; occurs roughly as every 20th</span>
+<span style="color: #8b2252;">character, &#246; only every 200 and &#229; is only used in Swedish derived</span>
+<span style="color: #8b2252;">words."</span>
+
+  (<span style="color: #a020f0;">interactive</span>
+   (<span style="color: #a020f0;">if</span> (use-region-p)
+       (list (region-beginning) (region-end))
+     (<span style="color: #a020f0;">let</span> ((bds (bounds-of-thing-at-point 'paragraph)))
+       (list (car bds) (cdr bds)))))
+
+  (<span style="color: #a020f0;">let*</span> ((us-string <span style="color: #8b2252;">";'[:\"{"</span>)
+         (fi-string <span style="color: #8b2252;">"&#246;&#228;&#229;&#214;&#196;&#197;"</span>))
+    (translate-characters us-string fi-string begin end)))
+</pre>
+</div>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2016-12-11</span>
+        <span title="last modification date" class="post-info">2016-12-11</span>
+        <span title="tags" class="post-info"><a href="http://heikkil.github.io/tags/emacs/">emacs</a></span>
+        <span title="author" class="post-info">Heikki Lehvaslaiho</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+        <div class="ds-thread"></div>
+        <script type="text/javascript">
+          var duoshuoQuery = {short_name:'heikki-home'};
+          (function() {
+          var ds = document.createElement('script');
+          ds.type = 'text/javascript';ds.async = true;
+          ds.src = 'http://static.duoshuo.com/embed.js';
+          ds.charset = 'UTF-8';
+          (document.getElementsByTagName('head')[0]
+          || document.getElementsByTagName('body')[0]).appendChild(ds);
+          })();
+        </script>
+      </section>
+      <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js"></script>
+      <script src="http://heikkil.github.io/media/js/main.js"></script>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.x(<a href="http://orgmode.org">Org mode</a> 9.x)</p>
+        <p>
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:heikki &lt;dot&gt; lehvaslaiho &lt;at&gt; gmail &lt;dot&gt; com">Heikki Lehvaslaiho</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/tumashu/org-webpage" target="_blank">org-webpage</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+  </body>
+</html>
