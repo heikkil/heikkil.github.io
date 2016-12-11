@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>From org-page to org-webpage - Heikki @ home</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Heikki Lehvaslaiho" />
+    <meta name="description" content="Moving to org-webpage" />
+    <meta name="keywords" content="org, org-page, org-webpage" />
+    <link rel="stylesheet" href="http://heikkil.github.io/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="http://heikkil.github.io/media/css/prettify.css" type="text/css">
+    <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
+</head>
+
+  <body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="http://heikkil.github.io/">Heikki @ home</a></h1>
+        <p>Loose leaves from my tree</p>
+        <ul>
+          <li><a href="http://heikkil.github.io/blog/">Blog</a></li>
+          <li><a href="http://heikkil.github.io/tags/">Tags</a></li>
+          <li><a href="http://heikkil.github.io/about/">About</a></li>
+          <li><a href="">GitHub</a></li>
+          <li><a href="http://heikkil.github.io/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="http://www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="q" value="site:heikkil.github.io">
+        </form>
+        <img class="avatar" src="https://avatars0.githubusercontent.com/u/75674?v=3&amp;s=460" />
+      </header>
+    </div>
+
+<div>
+<div class="post">
+<h1>From org-page to org-webpage</h1>
+<p>
+I started this blog last year using <a href="https://github.com/kelvinh/org-page">org-page</a>. Quite soon the author
+announced that he will not be supporting the package any more, but
+continued adding commits to it. I found difficult to keep my blog
+working and regained partial functionality by moving to an older
+version from the git repository.
+</p>
+
+<p>
+I now made a successful and relatively easy transition to <a href="https://github.com/tumashu/org-webpage">org-webpage</a>,
+a fork of org-page. Again, documentation is sparse and leaves  much to
+code reading and experimentation to understand what is going on.
+</p>
+
+<div id="outline-container-org0c4dabd" class="outline-2">
+<h2 id="org0c4dabd">Git integration is gone</h2>
+<div class="outline-text-2" id="text-org0c4dabd">
+<p>
+The major advantage seems to be that org-webpage supports multiple
+projects. Also, git integration has been removed. It is no longer
+necessary to commit blog entries to a source branch of the repository
+to have the engine to generate the HTML for the website into the
+master branch. It is not even necessary to have the code stored in a
+git repository.
+</p>
+
+<p>
+The published website can be written into a user
+defined directory, or, in case of github export, will be written into
+<code>~/.emacs.d/owp-temp.d/</code> directory. The uploader is code is written as a
+bash script into file <code>~/.emacs.d/owp-temp.d/&lt;NAME&gt;/owp-uploader.sh</code>
+that is have to be executed from command line.
+</p>
+
+<p>
+While this adds steps to the procedure, it is more flexible. The
+documentation recommends using <a href="http://rclone.org/">rclone</a> for syncing the repo to one of
+the numerous cloud storages. There should be ways to bring all the
+functionality back within emacs for my specific usage of uploading the
+site to github.
+</p>
+
+<p>
+I feel naked to have a project where my hard labour is not protected
+by git, so creating a repository for the source files was one of my
+first things to do.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb28e126" class="outline-2">
+<h2 id="orgb28e126">Fixes from org-page to org-webpage</h2>
+<div class="outline-text-2" id="text-orgb28e126">
+<p>
+Since org-webpage was forked from org-page already in March 2015, some
+things I fixed a year ago in org-page needed to be fixing again. Thet
+were minor issues in generating the main index file and the navigation
+bar. Those patches were applied practically immediately by the
+maintainer "tomashu".
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge9c462b" class="outline-2">
+<h2 id="orge9c462b">Development web server</h2>
+<div class="outline-text-2" id="text-orge9c462b">
+<p>
+It is possible to view locally the web site under development straight from
+the interactive publishing command <code>owp/do-publication</code>. It uses the
+pure lisp <a href="https://github.com/eschulte/emacs-web-server">emacs-web-server</a> that gets installed as a dependency from MELPA.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org39df415" class="outline-2">
+<h2 id="org39df415">The new work flow</h2>
+<div class="outline-text-2" id="text-org39df415">
+<ul class="org-ul">
+<li>write</li>
+<li>run test server</li>
+<li>commit source, push to remote repo with magit</li>
+<li>publish and push HTML to remote repo</li>
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2016-09-10</span>
+        <span title="last modification date" class="post-info">2016-12-11</span>
+        <span title="tags" class="post-info"><a href="http://heikkil.github.io/tags/emacs/">emacs</a></span>
+        <span title="author" class="post-info">Heikki Lehvaslaiho</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+        <div class="ds-thread"></div>
+        <script type="text/javascript">
+          var duoshuoQuery = {short_name:'heikki-home'};
+          (function() {
+          var ds = document.createElement('script');
+          ds.type = 'text/javascript';ds.async = true;
+          ds.src = 'http://static.duoshuo.com/embed.js';
+          ds.charset = 'UTF-8';
+          (document.getElementsByTagName('head')[0]
+          || document.getElementsByTagName('body')[0]).appendChild(ds);
+          })();
+        </script>
+      </section>
+      <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js"></script>
+      <script src="http://heikkil.github.io/media/js/main.js"></script>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.x(<a href="http://orgmode.org">Org mode</a> 9.x)</p>
+        <p>
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:heikki &lt;dot&gt; lehvaslaiho &lt;at&gt; gmail &lt;dot&gt; com">Heikki Lehvaslaiho</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/tumashu/org-webpage" target="_blank">org-webpage</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+  </body>
+</html>
