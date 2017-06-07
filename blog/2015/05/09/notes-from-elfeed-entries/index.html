@@ -88,7 +88,7 @@ URL and the title of the entry and places the string in the clipboard.
   (<span style="color: #a020f0;">interactive</span>)
   (<span style="color: #a020f0;">let*</span> ((link (elfeed-entry-link entry))
          (title (elfeed-entry-title entry))
-         (titlelink (concat <span style="color: #8b2252;">"[["</span> link <span style="color: #8b2252;">"]["</span> title <span style="color: #8b2252;">"]]"</span>)))
+         (titlelink (org-make-link-string link title))))
     (<span style="color: #a020f0;">when</span> titlelink
       (kill-new titlelink)
       (x-set-selection 'PRIMARY titlelink)
